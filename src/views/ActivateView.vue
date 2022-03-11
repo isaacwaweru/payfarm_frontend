@@ -1,0 +1,72 @@
+<template>
+  <div class="app">
+    <v-app-bar app color="#fff" flat>
+      <div class="d-flex align-center">
+        <v-img
+          lazy-src="../assets/foot.svg"
+          max-height="140"
+          max-width="140"
+          src="../assets/foot.svg"
+        ></v-img>
+      </div>
+
+      <v-spacer></v-spacer>
+
+      <router-link to="/signin" tag="span">
+        <v-btn color="#53C351" height="35" dark> Login </v-btn>
+      </router-link>
+    </v-app-bar>
+
+    <div class="signin pa-1">
+      <v-layout column class="mt-10">
+        <v-flex>
+          <div class="d-flex justify-center">
+            <v-card class="form">
+              <v-img
+                lazy-src="../assets/a.svg"
+                src="../assets/a.svg"
+              ></v-img>
+              <div class="form-1">
+                <v-img
+                  lazy-src="../assets/foot.svg"
+                  src="../assets/avr.svg"
+                ></v-img>
+              </div>
+
+              <div>
+                <form class="ml-8 mr-8">
+                  <h4>Short Code</h4>
+                  <v-text-field label="1234" required outlined></v-text-field>
+                  <v-btn class="mb-12" color="#556EE6" dark width="100%">
+                    Activate Account
+                  </v-btn>
+                </form>
+              </div>
+            </v-card>
+          </div>
+        </v-flex>
+      </v-layout>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {};
+</script>
+
+<style>
+.signin {
+  height: 900px;
+  background: url("../assets/Frame.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.form {
+  height: auto;
+  width: auto;
+  background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+  margin: 1rem;
+  border-radius: 6px;
+}
+</style>
