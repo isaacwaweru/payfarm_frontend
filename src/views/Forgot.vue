@@ -23,8 +23,8 @@
           <div class="d-flex justify-center">
             <v-card class="form">
               <v-img
-                lazy-src="../assets/signin.svg"
-                src="../assets/signin.svg"
+                lazy-src="../assets/forgot.svg"
+                src="../assets/forgot.svg"
               ></v-img>
               <div class="form-1">
                 <v-img
@@ -45,40 +45,10 @@
                     outlined
                     :rules="[rules.required, rules.email]"
                   ></v-text-field>
-                  <h4>Password</h4>
-                  <v-text-field
-                    v-model="password"
-                    label="Enter Password"
-                    required
-                    outlined
-                    :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                    :rules="passwordRules"
-                    :type="show1 ? 'text' : 'password'"
-                    name="input-10-1"
-                    counter
-                    @click:append="show1 = !show1"
-                  ></v-text-field>
-                  <v-checkbox label="Remember me?" required></v-checkbox>
-
-                  <v-alert v-if="alertError" type="error">
-                  Failed! Invalid email or password!
+                    <v-alert v-if="alertError" type="error">
+                    Failed! Your email might be invalid!
                   </v-alert>
-
-                  <v-btn type="submit" color="#556EE6" dark width="100%"> {{isLoading}} </v-btn>
-
-                  <div class="text">
-                    <router-link style="text-decoration: none; color: inherit;" to="/forgot">
-                    <h5 class="pt-3">
-                      <v-icon>mdi-lock</v-icon> Forgot your password?
-                    </h5>
-                    </router-link>
-                    <h4 class="pt-2 pb-7">
-                      Don't have an account ?
-                      <router-link style="text-decoration: none; color: inherit;" to="/registration">
-                      <span style="color: #e1a11c">Signup now</span>
-                      </router-link>
-                    </h4>
-                  </div>
+                  <v-btn type="submit" color="#556EE6" dark width="100%" class="mb-7"> {{isLoading}} </v-btn>
                 </form>
               </div>
             </v-card>
@@ -96,42 +66,34 @@ export default {
   data() {
     return {
       email: '',
-      password: '',
       alertError: false,
       show1: false,
       show2: true,
+      isLoading: 'Forgot',
       show3: false,
       show4: false,
-      isLoading: 'Login',
-      passwordRules: [
-        (value) => !!value || 'Please type password.',
-        (value) => (value && value.length >= 8) || 'Minimum 8 characters',
-      ],
       rules: {
           required: value => !!value || 'Required.',
           email: value => {
             const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-            return pattern.test(value) || 'Invalid email!'
+            return pattern.test(value) || 'Invalid e-mail.'
           },
         },
     }
   },
   methods: {
     async submitForm() {
-      this.isLoading = 'Please wait...'
-      try {
-        const response = await axios.post('login', {
+        this.isLoading = 'Please wait...'
+        try {
+      const response = await axios.post('forgotPassword', {
         email: this.email,
-        password: this.password
       });
-      console.log(response);
-      localStorage.setItem('token', response.data.token);
-      this.$store.dispatch('user', response.data.user);
-      this.isLoading = 'Login'
-      this.$router.push('/inside')
+      console.log(response); 
+        this.isLoading = 'Forgot'
+      this.$router.push('/signin')
       } catch (e) {
         this.alertError = true
-        this.isLoading = 'Login'
+        this.isLoading = 'Forgot'
       }
     }
   }
@@ -147,7 +109,7 @@ export default {
 }
 .form {
   height: auto;
-  width: auto;
+  width: 400px;
   background-color: #fff;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
   margin: 1rem;

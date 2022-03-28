@@ -12,35 +12,29 @@
 
       <v-spacer></v-spacer>
 
-      <router-link to="/signin" tag="span">
-        <v-btn color="#53C351" height="35" dark> Login </v-btn>
-      </router-link>
+  
     </v-app-bar>
 
     <div class="signin pa-1">
       <v-layout column class="mt-10">
         <v-flex>
           <div class="d-flex justify-center">
-            <v-card class="form">
+            <v-card :class="{
+                    'form-mobile mt-1 mr-1 ml-1 mb-1':
+                      $vuetify.breakpoint.smAndDown,
+                    'form': $vuetify.breakpoint.mdAndUp,
+                  }">
               <v-img
-                lazy-src="../assets/a.svg"
-                src="../assets/a.svg"
+                lazy-src="../assets/activate.svg"
+                src="../assets/activate.svg"
               ></v-img>
-              <div class="form-1">
+              <!-- <div class="form-1">
                 <v-img
                   lazy-src="../assets/foot.svg"
                   src="../assets/avr.svg"
                 ></v-img>
-              </div>
-
+              </div> -->
               <div>
-                <form class="ml-8 mr-8">
-                  <h4>Short Code</h4>
-                  <v-text-field label="1234" required outlined></v-text-field>
-                  <v-btn class="mb-12" color="#556EE6" dark width="100%">
-                    Activate Account
-                  </v-btn>
-                </form>
               </div>
             </v-card>
           </div>
@@ -51,7 +45,13 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      alertSuccess: false,
+    }
+  }
+};
 </script>
 
 <style>
@@ -63,10 +63,17 @@ export default {};
 }
 .form {
   height: auto;
-  width: auto;
+  width: 80px;
   background-color: #fff;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
   margin: 1rem;
+  border-radius: 6px;
+}
+.form-mobile {
+  height: auto;
+  width: 400x;
+  background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
   border-radius: 6px;
 }
 </style>

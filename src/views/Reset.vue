@@ -22,12 +22,12 @@
           <div class="begin d-flex justify-center">
             <v-card class="form">
               <v-img
-                lazy-src="../assets/r.svg"
-                src="../assets/r.svg"
+                lazy-src="../assets/reset.svg"
+                src="../assets/reset.svg"
               ></v-img>
               <div class="form-1">
                 <v-img
-                  lazy-src="../assets/foot.svg"
+                  lazy-src="../assets/avr.svg"
                   src="../assets/avr.svg"
                 ></v-img>
               </div>
@@ -36,31 +36,6 @@
                 <form class="ml-8 mr-8"
                 v-on:submit.prevent="submitForm"
                 >
-                  <h4 v-if="alertSuccessNot">Full Name</h4>
-                  <v-text-field
-                    v-if="alertSuccessNot"
-                    v-model="fullname"
-                    label="Enter Full Name"
-                    required
-                    outlined
-                  ></v-text-field>
-                  <h4 v-if="alertSuccessNot">Email</h4>
-                  <v-text-field
-                    v-if="alertSuccessNot"
-                    v-model="email"
-                    label="Enter Email"
-                    required
-                    outlined
-                    :rules="[rules.required, rules.email]"
-                  ></v-text-field>
-                  <h4 v-if="alertSuccessNot">Phone Number</h4>
-                  <v-text-field
-                    v-if="alertSuccessNot"
-                    v-model="phone"
-                    label="Phone Number"
-                    required
-                    outlined
-                  ></v-text-field>
                   <h4 v-if="alertSuccessNot">Password</h4>
                   <v-text-field
                     v-if="alertSuccessNot"
@@ -88,25 +63,15 @@
                     name="input-10-2"
                     @click:append="show4 = !show4"
                   ></v-text-field>
-                  <v-checkbox v-if="alertSuccessNot" label="Accept Terms" required></v-checkbox>
                   <v-alert v-if="alertSuccess" type="success">
                   Success! Please check your email!
                   </v-alert>
                   <v-alert v-if="alertError" type="error">
-                  Failed! Invalid email or phone!
+                  Token is invalid or has expired!
                   </v-alert>
                   <v-btn v-if="alertSuccessNot" type="submit" class="mb-5" color="#556EE6" dark width="100%">
-                  {{isLoading}}
+                    {{ isLoading }}
                   </v-btn>
-
-                  <div v-if="alertSuccessNot" class="text">
-                    <h4 class="pt-2 pb-3">
-                      Have an account ?
-                      <router-link style="text-decoration: none; color: inherit;" to="/signin">
-                      <span style="color: #e1a11c">Login now</span>
-                      </router-link>
-                    </h4>
-                  </div>
                 </form>
               </div>
             </v-card>
@@ -123,14 +88,11 @@ import axios from 'axios'
 export default {
   data() {
     return {
-      fullname: '',
-      email: '',
-      phone: '',
       password: '',
       confirmpassword: '',
       status: false,
-      isLoading: 'Register',
       formIsValid: true,
+      isLoading: 'Reset',
       alertSuccess: false,
       alertSuccessNot: true,
       alertError: false,
@@ -147,31 +109,23 @@ export default {
         (value) =>
           value === this.password || 'The password confirmation does not match.',
       ],
-      rules: {
-          required: value => !!value || 'Required.',
-          email: value => {
-            const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-            return pattern.test(value) || 'Invalid e-mail.'
-          },
-        },
     }
   },
   methods: {
   async submitForm() {
-    this.isLoading = 'Please wait...'
-    try {
-      const response = await axios.post('register', {
-       fullname: this.fullname,
-       email: this.email,
-       phone: this.phone,
+      this.isLoading = 'Please wait...'
+      try {
+      const response = await axios.patch('resetPassword', {
        password: this.password,
+       token: this.$route.params.token
      });
+     console.log(this.$route.params.token)
      console.log(response)
-     this.isLoading = 'Register'
-     this.$router.push('/activate')
+     this.isLoading = 'Reset'
+     this.$router.push('/signin')
      } catch (e) {
         this.alertError = true
-        this.isLoading = 'Register'
+        this.isLoading = 'Reset'
       }
    }
   }
@@ -187,7 +141,7 @@ export default {
 }
 .form {
   height: auto;
-  width: 80%;
+  width: 400px;
   background-color: #fff;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
   margin: 6px;

@@ -11,14 +11,14 @@
       </div>
 
       <v-spacer />
-      <p class="greeting">Good afternoon, Koffi Olomide</p>
+      <p class="greeting">Hello, {{ user.fullname }}</p>
       <v-spacer />
 
-      <router-link to="/" tag="span">
+      
         <div>
-          <v-btn color="#53C351" height="35" dark> Log Out </v-btn>
+          <v-btn color="#53C351" height="35" dark @click="handleClick"> Log Out </v-btn>
         </div>
-      </router-link>
+  
     </v-app-bar>
 
     <v-toolbar dense color="#0B0636" dark class="title-1">
@@ -31,7 +31,7 @@
 
       <v-subheader
         class="sub">
-        <h2>Afternoon,Koffi</h2>
+        <h2>Hello, {{ user.fullname.split(' ').slice(0, -1).join(' ') }}</h2>
       </v-subheader>
 
 
@@ -44,14 +44,64 @@
 
       <v-subheader
         class="sub">
-        <h2>KES:5000</h2>
+        <h2>KES:{{ user.amount }}</h2>
       </v-subheader>
 
       <v-btn class="ma-2" small outlined color="#53C351" rounded
         >Withdraw</v-btn
       >
 
-      <v-btn class="ma-2" color="#53C351" small rounded>Buy Feed</v-btn>
+      <v-dialog
+        transition="dialog-top-transition"
+        max-width="600"
+      >
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn class="ma-2" v-bind="attrs" v-on="on" color="#53C351" small rounded>Buy Feed</v-btn>
+        </template>
+        <template v-slot:default="dialog">
+          <v-card>
+            <v-toolbar
+              color="#53C351"
+              dark
+            >Feed you animal</v-toolbar>
+            <h5 class="pl-3 pt-1">Enter amount and your Mpesa Number</h5>
+            <form class="ml-8 mr-8"
+                v-on:submit.prevent="submitForm"
+                >
+                  <v-text-field
+                    v-model="phone"
+                    label="Phone number"
+                    required
+                    outlined
+                    class="pa-4"
+                    type="number"
+                  ></v-text-field>
+
+                  <v-text-field
+                    v-model="amount"
+                    label="Amount"
+                    required
+                    outlined
+                    value="100"
+                    class="pl-4 pr-4"
+                    type="number"
+                  ></v-text-field>
+
+                  <v-alert v-if="alertSuccess" type="success">
+                  Success! Please check your phone!
+                  </v-alert>
+
+                  <v-btn type="submit" color="#e1a11c" dark class="ml-4" > {{isLoading}} </v-btn>
+              </form>
+            <v-card-actions class="justify-end">
+              <v-btn
+                text
+                @click="dialog.value = false"
+              >Close</v-btn>
+            </v-card-actions>
+          </v-card>
+        </template>
+      </v-dialog>
     </v-toolbar>
 
     <div class="background">
@@ -89,10 +139,10 @@
               Your chick is 3 months old
             </p>
             <v-img
-              lazy-src="../assets/sell.svg"
-              max-height="120"
-              max-width="120"
-              src="../assets/chick.svg"
+              lazy-src="../assets/chicken/oneweek.svg"
+              max-height="300"
+              max-width="300"
+              src="../assets/chicken/oneweek.svg"
               style="margin: auto !important"
               class="mt-16"
             ></v-img>
@@ -106,10 +156,77 @@
 </template>
 
 <script>
-export default {};
+import axios from 'axios'
+import { mapGetters } from 'vuex'
+
+export default {
+
+  data() {
+    return {
+      phone: '',
+      amount: '',
+      isLoading: 'Confirm',
+      alertSuccess: false,
+    }
+  },
+
+  // async created() {
+  //   const response = await axios.get('users');
+  //   console.log('yo', response);
+  // },
+
+  methods: {
+    handleClick() {
+      localStorage.removeItem('token');
+      this.$router.push('/')
+    },
+    async submitForm() {
+      this.isLoading = 'Please wait...'
+      const phone = '254' + this.phone.substring(1);
+      console.log(phone);
+      const data = {
+        phone: phone,
+        amount: this.amount
+      }
+      try {
+        const response = await axios.post('deposit', data);
+      console.log(response);
+      this.isLoading = 'Confirm'
+      this.alertSuccess = true
+      } catch (e) {
+        this.alertError = true
+        this.isLoading = 'Confirm'
+      }
+    }
+  },
+
+  computed: {
+    ...mapGetters(['user'])
+  },
+
+  getGreetingTime (m) {
+      var g = null; //return g
+      
+      if(!m || !m.isValid()) { return; } //if we can't find a valid or filled moment, we return.
+      
+      var split_afternoon = 12 //24hr time to split the afternoon
+      var split_evening = 17 //24hr time to split the evening
+      var currentHour = parseFloat(m.format("HH"));
+      
+      if(currentHour >= split_afternoon && currentHour <= split_evening) {
+        g = "afternoon";
+      } else if(currentHour >= split_evening) {
+        g = "evening";
+      } else {
+        g = "morning";
+      }
+      
+      return g;
+    },
+};
 </script>
 
-<style>
+<style scoped>
 .sub-1 {
   font-size: 9px !important;
 }
@@ -118,7 +235,7 @@ export default {};
 }
 .background {
   height: 90vh;
-  background: url("../assets/Frame.png");
+  background: url("../assets/backii.png");
   background-repeat: no-repeat;
   background-size: cover;
 }

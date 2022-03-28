@@ -12,30 +12,41 @@
 
       <v-spacer></v-spacer>
 
-      <router-link to="/registration" tag="span">
+      <router-link to="/signin" tag="span">
         <v-btn color="#53C351" height="35" dark> Login </v-btn>
       </router-link>
     </v-app-bar>
 
     <v-layout column wrap>
       <v-flex xs12 md3
-        ><div class="background">
-          <div class="heading mt-16">
-            <p>Empowering Farming</p>
-            <p>through Technology</p>
+        ><section>
+          <div class="large">
+            <lottie :options="largeScreens" v-on:animCreated="handleAnimation">
+            </lottie>
           </div>
-          <div class="subheading">
-            <p>
-              We help realize your dreams of investing in Agriculture,<br />
-              let's start with small things that can change the world,<br />
-              so we can live happy and abundant lives.<br />
-            </p>
-            <p>
-              Feeding the animal makes the animal grow and later<br />
-              sell it on the site and earn profits
-            </p>
+          <div class="small">
+            <lottie :options="mobile" v-on:animCreated="handleAnimation">
+            </lottie>
           </div>
-        </div>
+          <div class="title">
+            <header class="heading">
+              <p>Empowering Farming</p>
+              <p>through Technology</p>
+            </header>
+
+            <div class="subheading">
+              <p>
+                We help realize your dreams of investing in Agriculture,<br />
+                let's start with small things that can change the world,<br />
+                so we can live happy and abundant lives.<br />
+              </p>
+              <p>
+                Feeding the animal makes the animal grow and later<br />
+                sell it on the site and earn profits
+              </p>
+            </div>
+          </div>
+        </section>
 
         <v-container>
           <v-row justify="center" align="center">
@@ -179,8 +190,9 @@
                       class="mt-16"
                     ></v-img>
                   </div>
-
+                  <router-link style="text-decoration: none; color: inherit;" to="/signin">
                   <div class="action">PROCEED TO BUY</div>
+                  </router-link>
                 </div>
               </v-col>
 
@@ -304,40 +316,59 @@
                     'form': $vuetify.breakpoint.mdAndUp,
                   }">
             <v-img
-              lazy-src="../assets/foot.svg"
+              lazy-src="../assets/head.svg"
               src="../assets/head.svg"
             ></v-img>
             <div class="form-1">
               <v-img
-                lazy-src="../assets/foot.svg"
+                lazy-src="../assets/avr.svg"
                 src="../assets/avr.svg"
               ></v-img>
             </div>
             <div>
-              <form class="ml-8 mr-8">
+              <form class="ml-8 mr-8"
+                v-on:submit.prevent="submitForm"
+              >
                 <h4>Email Address</h4>
                 <v-text-field
-                  label="Email"
-                  required
-                  outlined
+                  v-model="email"
+                    label="Enter Email"
+                    required
+                    outlined
+                    :rules="[rules.required, rules.email]"
                 ></v-text-field>
                 <h4>Password</h4>
                 <v-text-field
-                  label="Enter Password"
-                  required
-                  outlined
+                   v-model="password"
+                    label="Enter Password"
+                    required
+                    outlined
+                    :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                    :rules="passwordRules"
+                    :type="show1 ? 'text' : 'password'"
+                    name="input-10-1"
+                    counter
+                    @click:append="show1 = !show1"
                 ></v-text-field>
                 <v-checkbox label="Remember me?" required></v-checkbox>
 
-                <v-btn color="#556EE6" dark width="100%"> Login </v-btn>
+                <v-alert v-if="alertError" type="error">
+                  Failed! Invalid email or password!
+                  </v-alert>
+
+                <v-btn type="submit" color="#556EE6" dark width="100%"> {{isLoading}} </v-btn>
 
                 <div class="text">
+                  <router-link style="text-decoration: none; color: inherit;" to="/forgot">
                   <h5 class="pt-3">
                     <v-icon>mdi-lock</v-icon> Forgot your password?
                   </h5>
+                  </router-link>
                   <h4 class="pt-2 pb-7">
                     Don't have an account ?
+                    <router-link style="text-decoration: none; color: inherit;" to="/registration">
                     <span style="color: #e1a11c">Signup now</span>
+                    </router-link>
                   </h4>
                 </div>
               </form>
@@ -403,32 +434,98 @@
 </template>
 
 <script>
+import Lottie from "../LottieView.vue";
+import animationData1 from "../assets/payfarm.json";
+import animationData2 from "../assets/mobile.json";
+import axios from 'axios'
 export default {
-  data: () => ({
-    home: "Here there is the home page!",
-  }),
+   name: "app",
+  components: {
+    lottie: Lottie,
+  },
+  data() {
+    return {
+      largeScreens: { animationData: animationData1 },
+      mobile: { animationData: animationData2 },
+      animationSpeed: 1,
+      email: '',
+      password: '',
+      alertError: false,
+      isLoading: 'Login',
+      show1: false,
+      show2: true,
+      show3: false,
+      show4: false,
+      passwordRules: [
+        (value) => !!value || 'Please type password.',
+        (value) => (value && value.length >= 8) || 'Minimum 8 characters',
+      ],
+      rules: {
+          required: value => !!value || 'Required.',
+          email: value => {
+            const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            return pattern.test(value) || 'Invalid e-mail.'
+          },
+        },
+    };
+  },
+  methods: {
+    async submitForm() {
+      this.isLoading = 'Please wait...'
+      try {
+        const response = await axios.post('login', {
+        email: this.email,
+        password: this.password
+      });
+      console.log(response);
+      localStorage.setItem('token', response.data.token);
+      this.$store.dispatch('user', response.data.user);
+      this.isLoading = 'Login'
+      this.$router.push('/inside')
+      } catch (e) {
+        this.alertError = true
+        this.isLoading = 'Login'
+      }
+    }
+  }
 };
 </script>
 
 <style scoped>
-.background {
-  height: 100%;
-  background: url("../assets/Frame.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  overflow-x: hidden;
+section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  position: relative;
+}
+.title {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .heading {
   color: #fff;
   text-align: center;
-  text-decoration-style: bold;
   font-size: 56px;
+}
+.heading p {
+  padding: 30px 0px;
+  margin-bottom: 16px;
 }
 .subheading {
   color: #fff;
   text-align: center;
   text-decoration-style: bold;
   font-size: 18px;
+  z-index: 1000;
 }
 .heading-3 {
   color: #61bd5b;
@@ -529,5 +626,26 @@ export default {
 }
 .packages {
   background-color: #e5e5e5;
+}
+@media screen and (max-width: 425px) {
+  p {
+    line-height: 1rem !important;
+    padding: 5px 0px !important;
+    margin-bottom: 3px !important;
+  }
+  .heading {
+    font-size: 18px;
+  }
+  .subheading {
+    font-size: 10px !important;
+  }
+  .large {
+    display: none;
+  }
+}
+@media screen and (min-width: 551px) {
+  .small {
+    display: none;
+  }
 }
 </style>
