@@ -8,6 +8,7 @@ import InsideView from "../views/InsideView.vue";
 import Forgot from "../views/Forgot.vue";
 import Reset from "../views/Reset.vue";
 import Activate from "../views/Activate.vue";
+import goTo from 'vuetify/es5/services/goto'
 
 Vue.use(VueRouter);
 
@@ -56,8 +57,11 @@ const routes = [
 
 const router = new VueRouter({
   mode: "history",
-  base: '/payfarm',
   routes,
 });
+
+router.afterEach((to, from) => {
+  goTo(0, { duration: 0 })
+})
 
 export default router;

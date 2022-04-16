@@ -58,49 +58,126 @@
         <template v-slot:activator="{ on, attrs }">
           <v-btn class="ma-2" v-bind="attrs" v-on="on" color="#53C351" small rounded>Buy Feed</v-btn>
         </template>
-        <template v-slot:default="dialog">
-          <v-card>
-            <v-toolbar
-              color="#53C351"
-              dark
-            >Feed you animal</v-toolbar>
-            <h5 class="pl-3 pt-1">Enter amount and your Mpesa Number</h5>
-            <form class="ml-8 mr-8"
-                v-on:submit.prevent="submitForm"
-                >
-                  <v-text-field
-                    v-model="phone"
-                    label="Phone number"
-                    required
-                    outlined
-                    class="pa-4"
-                    type="number"
-                  ></v-text-field>
-
-                  <v-text-field
-                    v-model="amount"
-                    label="Amount"
-                    required
-                    outlined
-                    value="100"
-                    class="pl-4 pr-4"
-                    type="number"
-                  ></v-text-field>
-
-                  <v-alert v-if="alertSuccess" type="success">
-                  Success! Please check your phone!
-                  </v-alert>
-
-                  <v-btn type="submit" color="#e1a11c" dark class="ml-4" > {{isLoading}} </v-btn>
-              </form>
-            <v-card-actions class="justify-end">
-              <v-btn
-                text
-                @click="dialog.value = false"
-              >Close</v-btn>
-            </v-card-actions>
-          </v-card>
-        </template>
+        <template>
+  <v-row justify="center">
+    <v-dialog
+      v-model="dialog"
+      scrollable
+      max-width="300px"
+    >
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          color="primary"
+          dark
+          v-bind="attrs"
+          v-on="on"
+        >
+          Open Dialog
+        </v-btn>
+      </template>
+      <v-card>
+        <v-card-title>Select Country</v-card-title>
+        <v-divider></v-divider>
+        <v-card-text style="height: 300px;">
+          <v-radio-group
+            v-model="dialogm1"
+            column
+          >
+            <v-radio
+              label="Bahamas, The"
+              value="bahamas"
+            ></v-radio>
+            <v-radio
+              label="Bahrain"
+              value="bahrain"
+            ></v-radio>
+            <v-radio
+              label="Bangladesh"
+              value="bangladesh"
+            ></v-radio>
+            <v-radio
+              label="Barbados"
+              value="barbados"
+            ></v-radio>
+            <v-radio
+              label="Belarus"
+              value="belarus"
+            ></v-radio>
+            <v-radio
+              label="Belgium"
+              value="belgium"
+            ></v-radio>
+            <v-radio
+              label="Belize"
+              value="belize"
+            ></v-radio>
+            <v-radio
+              label="Benin"
+              value="benin"
+            ></v-radio>
+            <v-radio
+              label="Bhutan"
+              value="bhutan"
+            ></v-radio>
+            <v-radio
+              label="Bolivia"
+              value="bolivia"
+            ></v-radio>
+            <v-radio
+              label="Bosnia and Herzegovina"
+              value="bosnia"
+            ></v-radio>
+            <v-radio
+              label="Botswana"
+              value="botswana"
+            ></v-radio>
+            <v-radio
+              label="Brazil"
+              value="brazil"
+            ></v-radio>
+            <v-radio
+              label="Brunei"
+              value="brunei"
+            ></v-radio>
+            <v-radio
+              label="Bulgaria"
+              value="bulgaria"
+            ></v-radio>
+            <v-radio
+              label="Burkina Faso"
+              value="burkina"
+            ></v-radio>
+            <v-radio
+              label="Burma"
+              value="burma"
+            ></v-radio>
+            <v-radio
+              label="Burundi"
+              value="burundi"
+            ></v-radio>
+          </v-radio-group>
+        </v-card-text>
+        <v-divider></v-divider>
+        <v-card-actions>
+          <v-btn
+            color="blue darken-1"
+            text
+            @click="dialog = false"
+          >
+            Close
+          </v-btn>
+          <v-btn
+            color="blue darken-1"
+            text
+            @click="dialog = false"
+          >
+            Save   
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-row>
+</template>
       </v-dialog>
     </v-toolbar>
 
@@ -148,7 +225,7 @@
             ></v-img>
           </div>
 
-          <div class="action">BUY FEED</div>
+          <div class="action">GET IT DELIVERED</div>
         </div>
       </v-col>
     </div>
@@ -167,7 +244,13 @@ export default {
       amount: '',
       isLoading: 'Confirm',
       alertSuccess: false,
+      dialogm1: '',
+      dialog: false,
     }
+  },
+
+  mounted() {
+    this.$store.dispatch('getUser')
   },
 
   // async created() {
@@ -177,6 +260,7 @@ export default {
 
   methods: {
     handleClick() {
+      this.$store.dispatch('deleteUser')
       localStorage.removeItem('token');
       this.$router.push('/')
     },

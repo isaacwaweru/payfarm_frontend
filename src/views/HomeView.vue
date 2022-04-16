@@ -30,12 +30,12 @@
           </div>
           <div class="title">
             <header class="heading">
-              <p>Empowering Farming</p>
+              <p class="mb-4">Empowering Farming</p>
               <p>through Technology</p>
             </header>
 
             <div class="subheading">
-              <p>
+              <p class="mt-2">
                 We help realize your dreams of investing in Agriculture,<br />
                 let's start with small things that can change the world,<br />
                 so we can live happy and abundant lives.<br />
@@ -182,7 +182,7 @@
                       Pay and grow your fam animals
                     </p>
                     <v-img
-                      lazy-src="../assets/sell.svg"
+                      lazy-src="../assets/chick.svg"
                       max-height="120"
                       max-width="120"
                       src="../assets/chick.svg"
@@ -238,7 +238,7 @@
                       Pay and grow your fam animals
                     </p>
                     <v-img
-                      lazy-src="../assets/sell.svg"
+                      lazy-src="../assets/calf.svg"
                       max-height="130"
                       max-width="120"
                       src="../assets/calf.svg"
@@ -293,7 +293,7 @@
                       Pay and grow your fam animals
                     </p>
                     <v-img
-                      lazy-src="../assets/sell.svg"
+                      lazy-src="../assets/kid.svg"
                       max-height="120"
                       max-width="120"
                       src="../assets/kid.svg"
@@ -627,17 +627,25 @@ section {
 .packages {
   background-color: #e5e5e5;
 }
-@media screen and (max-width: 425px) {
+@media screen and (max-width: 768px) {
+  .heading p {
+    padding: 10px;
+  }
+  .heading {
+    font-size: 32px !important;
+  }
+}
+@media screen and (max-width: 550px) {
   p {
     line-height: 1rem !important;
     padding: 5px 0px !important;
     margin-bottom: 3px !important;
   }
   .heading {
-    font-size: 18px;
+    font-size: 32px;
   }
   .subheading {
-    font-size: 10px !important;
+    font-size: 16px !important;
   }
   .large {
     display: none;

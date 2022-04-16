@@ -11,12 +11,8 @@
         ></v-img>
       </div>
        </router-link>
-
       <v-spacer></v-spacer>
-
-    
     </v-app-bar>
-
     <div class="signin pa-1">
       <v-layout column class="mt-9">
         <v-flex>
@@ -28,7 +24,7 @@
               ></v-img>
               <div class="form-1">
                 <v-img
-                  lazy-src="../assets/foot.svg"
+                  lazy-src="../assets/avr.svg"
                   src="../assets/avr.svg"
                 ></v-img>
               </div>
@@ -91,7 +87,6 @@
 
 <script>
 import axios from 'axios'
-
 export default {
   data() {
     return {
@@ -121,10 +116,9 @@ export default {
       this.isLoading = 'Please wait...'
       try {
         const response = await axios.post('login', {
-        email: this.email,
+        email: this.email.trim(),
         password: this.password
       });
-      console.log(response);
       localStorage.setItem('token', response.data.token);
       this.$store.dispatch('user', response.data.user);
       this.isLoading = 'Login'

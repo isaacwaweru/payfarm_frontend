@@ -27,7 +27,7 @@
               ></v-img>
               <div class="form-1">
                 <v-img
-                  lazy-src="../assets/foot.svg"
+                  lazy-src="../assets/avr.svg"
                   src="../assets/avr.svg"
                 ></v-img>
               </div>
