@@ -90,7 +90,7 @@ export default {
       });
       console.log(response); 
         this.isLoading = 'Forgot'
-      this.$router.push('/signin')
+      this.$router.push('/forgotview')
       } catch (e) {
         this.alertError = true
         this.isLoading = 'Forgot'

@@ -47,138 +47,10 @@
         <h2>KES:{{ user.amount }}</h2>
       </v-subheader>
 
-      <v-btn class="ma-2" small outlined color="#53C351" rounded
+      <v-btn class="ma-2" small outlined @click.stop="dialog1 = true" color="#53C351" rounded
         >Withdraw</v-btn
       >
-
-      <v-dialog
-        transition="dialog-top-transition"
-        max-width="600"
-      >
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn class="ma-2" v-bind="attrs" v-on="on" color="#53C351" small rounded>Buy Feed</v-btn>
-        </template>
-        <template>
-  <v-row justify="center">
-    <v-dialog
-      v-model="dialog"
-      scrollable
-      max-width="300px"
-    >
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          color="primary"
-          dark
-          v-bind="attrs"
-          v-on="on"
-        >
-          Open Dialog
-        </v-btn>
-      </template>
-      <v-card>
-        <v-card-title>Select Country</v-card-title>
-        <v-divider></v-divider>
-        <v-card-text style="height: 300px;">
-          <v-radio-group
-            v-model="dialogm1"
-            column
-          >
-            <v-radio
-              label="Bahamas, The"
-              value="bahamas"
-            ></v-radio>
-            <v-radio
-              label="Bahrain"
-              value="bahrain"
-            ></v-radio>
-            <v-radio
-              label="Bangladesh"
-              value="bangladesh"
-            ></v-radio>
-            <v-radio
-              label="Barbados"
-              value="barbados"
-            ></v-radio>
-            <v-radio
-              label="Belarus"
-              value="belarus"
-            ></v-radio>
-            <v-radio
-              label="Belgium"
-              value="belgium"
-            ></v-radio>
-            <v-radio
-              label="Belize"
-              value="belize"
-            ></v-radio>
-            <v-radio
-              label="Benin"
-              value="benin"
-            ></v-radio>
-            <v-radio
-              label="Bhutan"
-              value="bhutan"
-            ></v-radio>
-            <v-radio
-              label="Bolivia"
-              value="bolivia"
-            ></v-radio>
-            <v-radio
-              label="Bosnia and Herzegovina"
-              value="bosnia"
-            ></v-radio>
-            <v-radio
-              label="Botswana"
-              value="botswana"
-            ></v-radio>
-            <v-radio
-              label="Brazil"
-              value="brazil"
-            ></v-radio>
-            <v-radio
-              label="Brunei"
-              value="brunei"
-            ></v-radio>
-            <v-radio
-              label="Bulgaria"
-              value="bulgaria"
-            ></v-radio>
-            <v-radio
-              label="Burkina Faso"
-              value="burkina"
-            ></v-radio>
-            <v-radio
-              label="Burma"
-              value="burma"
-            ></v-radio>
-            <v-radio
-              label="Burundi"
-              value="burundi"
-            ></v-radio>
-          </v-radio-group>
-        </v-card-text>
-        <v-divider></v-divider>
-        <v-card-actions>
-          <v-btn
-            color="blue darken-1"
-            text
-            @click="dialog = false"
-          >
-            Close
-          </v-btn>
-          <v-btn
-            color="blue darken-1"
-            text
-            @click="dialog = false"
-          >
-            Save   
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </v-row>
-</template>
-      </v-dialog>
+          <v-btn class="ma-2" v-bind="attrs" @click.stop="dialog = true" color="#53C351" small rounded>Buy Feed</v-btn>
     </v-toolbar>
 
     <div class="background">
@@ -224,28 +96,184 @@
               class="mt-16"
             ></v-img>
           </div>
+            
+          <div class="action"><v-btn small outlined @click.stop="dialog2 = true"  color="#fff" rounded>GET IT DELIVERED</v-btn></div>
 
-          <div class="action">GET IT DELIVERED</div>
         </div>
       </v-col>
     </div>
+    <!-- Feed animal now -->
+    <template>
+  <v-row justify="center">
+    <v-dialog
+      v-model="dialog"
+      scrollable
+      max-width="300px"
+    >
+      <v-card>
+        <v-card-title>Feed Animal</v-card-title>
+        <h5 class="pl-6 pt-1">Select the feed</h5>
+        <v-divider></v-divider>
+        <v-card-text style="height: 300px;">
+          <div 
+          v-if="alertSuccess"
+          class="mt-1"
+          >
+            <lottie :options="mobile" v-on:animCreated="handleAnimation">
+            </lottie>
+          </div>
+          <v-radio-group
+            v-if="feedNow"
+            v-model="dialogm1"
+            column
+          >
+            <v-radio
+              label="Starter Feed@KES 1000"
+              value="1"
+            ></v-radio>
+            <v-radio
+              label="Grower Feed@KES 500"
+              value="2"
+            ></v-radio>
+          </v-radio-group>
+          
+          <v-alert v-if="alertSuccess" type="success">
+            Success! Please check your phone!
+          </v-alert>
+
+        </v-card-text>
+        <v-divider></v-divider>
+        <v-card-actions>
+          <v-btn
+            color="blue darken-1"
+            text
+            @click="dialog = false; alertSuccess = false; feedNow = true; "
+          >
+            Close
+          </v-btn>
+          <v-spacer></v-spacer>
+          <v-btn @click="submitForm" color="#e1a11c" dark class="ml-4" > {{isLoading}} </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-row>
+</template>
+
+<!-- Withdraw from the system -->
+  <template>
+  <v-row justify="center">
+    <v-dialog
+      v-model="dialog1"
+      transition="dialog-top-transition"
+      max-width="600"
+    >
+      <v-card>
+            <v-toolbar
+              color="#53C351"
+              dark
+            >Withdraw to M-pesa</v-toolbar>
+            <h5 class="pl-3 pt-1 mb-3 mt-2">Enter the amount you want to withdraw</h5>
+            <form class="ml-8 mr-8"
+                v-on:submit.prevent="submitForm"
+                >
+                  <v-text-field
+                    v-model="amount"
+                    label="Amount"
+                    required
+                    outlined
+                    value="100"
+                    class="pl-4 pr-4"
+                    type="number"
+                  ></v-text-field>
+
+                  <v-alert v-if="alertSuccess" type="success">
+                  Success! Please check your phone!
+                  </v-alert>
+
+                  <v-btn type="submit" color="#e1a11c" dark class="ml-4" > Withdraw </v-btn>
+              </form>
+            <v-card-actions class="justify-end">
+              <v-btn
+                text
+                @click="dialog1 = false"
+              >Close</v-btn>
+            </v-card-actions>
+          </v-card>
+    </v-dialog>
+  </v-row>
+  </template>
+
+<!-- Deliver animal now -->
+  <template>
+  <v-row justify="center">
+    <v-dialog
+      v-model="dialog2"
+      transition="dialog-top-transition"
+      max-width="600"
+    >
+      <v-card>
+            <v-toolbar
+              color="#4d52ff"
+              dark
+            >Animal Delivery</v-toolbar>
+            <h5 class="pl-3 pt-1 mb-3 mt-2">Enter your current location</h5>
+            <form class="ml-8 mr-8"
+                v-on:submit.prevent="submitForm"
+                >
+                  <v-text-field
+                    v-model="location"
+                    label="Location"
+                    required
+                    outlined
+                    value="100"
+                    class="pl-4 pr-4"
+                  ></v-text-field>
+
+                  <v-alert v-if="alertSuccess" type="success">
+                  Success! Please check your phone!
+                  </v-alert>
+
+                  <v-btn type="submit" color="#4d52ff" dark class="ml-4" > Submit </v-btn>
+              </form>
+            <v-card-actions class="justify-end">
+              <v-btn
+                text
+                @click="dialog2 = false"
+              >Close</v-btn>
+            </v-card-actions>
+          </v-card>
+    </v-dialog>
+  </v-row>
+  </template>
+
+
   </div>
 </template>
 
 <script>
+import Lottie from "../LottieView.vue";
+import animationData2 from "../assets/feed.json";
 import axios from 'axios'
 import { mapGetters } from 'vuex'
 
 export default {
-
+  components: {
+    lottie: Lottie,
+  },
   data() {
     return {
+      mobile: { animationData: animationData2 },
+      animationSpeed: 3,
       phone: '',
       amount: '',
+      location: '',
       isLoading: 'Confirm',
       alertSuccess: false,
+      feedNow: true,
       dialogm1: '',
       dialog: false,
+      dialog1: false,
+      dialog2: false,
     }
   },
 
@@ -266,17 +294,17 @@ export default {
     },
     async submitForm() {
       this.isLoading = 'Please wait...'
-      const phone = '254' + this.phone.substring(1);
-      console.log(phone);
+      const phone = '254' + this.user.phone.substring(1).trim();
       const data = {
         phone: phone,
-        amount: this.amount
+        amount: this.dialogm1
       }
       try {
         const response = await axios.post('deposit', data);
       console.log(response);
       this.isLoading = 'Confirm'
       this.alertSuccess = true
+      this.feedNow = false
       } catch (e) {
         this.alertError = true
         this.isLoading = 'Confirm'

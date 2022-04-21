@@ -6,6 +6,7 @@ import ActivateView from "../views/ActivateView.vue";
 import SigninView from "../views/SigninView.vue";
 import InsideView from "../views/InsideView.vue";
 import Forgot from "../views/Forgot.vue";
+import ForgotView from "../views/ForgotView";
 import Reset from "../views/Reset.vue";
 import Activate from "../views/Activate.vue";
 import goTo from 'vuetify/es5/services/goto'
@@ -37,6 +38,11 @@ const routes = [
     path: "/forgot",
     name: "forgot",
     component: Forgot,
+  },
+  {
+    path: "/forgotview",
+    name: "forgotview",
+    component: ForgotView,
   },
   {
     path: "/reset/:token",

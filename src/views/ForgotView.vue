@@ -25,8 +25,8 @@
                     'form': $vuetify.breakpoint.mdAndUp,
                   }">
               <v-img
-                lazy-src="../assets/activate.svg"
-                src="../assets/activate.svg"
+                lazy-src="../assets/password.svg"
+                src="../assets/password.svg"
               ></v-img>
               <!-- <div class="form-1">
                 <v-img
