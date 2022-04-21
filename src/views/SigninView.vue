@@ -134,7 +134,7 @@ export default {
 
 <style>
 .signin {
-  height: 1000px;
+  height: 1100px !important;
   background: url("../assets/backii.png");
   background-repeat: no-repeat;
   background-size: cover;
