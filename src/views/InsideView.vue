@@ -234,6 +234,19 @@
                   </v-alert>
 
                   <v-btn type="submit" color="#4d52ff" dark class="ml-4" > Submit </v-btn>
+                  <v-radio-group
+                    v-model="dialogm1"
+                    column
+                  >
+                    <v-radio
+                      label="Starter Feed@KES 1000"
+                      value="1"
+                    ></v-radio>
+                    <v-radio
+                      label="Grower Feed@KES 500"
+                      value="2"
+                    ></v-radio>
+                  </v-radio-group>
               </form>
             <v-card-actions class="justify-end">
               <v-btn
