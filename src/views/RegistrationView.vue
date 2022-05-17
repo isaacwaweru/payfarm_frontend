@@ -61,6 +61,13 @@
                     required
                     outlined
                   ></v-text-field>
+                  <h4 v-if="alertSuccessNot">Referral Phonenumber</h4>
+                  <v-text-field
+                    v-if="alertSuccessNot"
+                    v-model="referral"
+                    label="Referral Phonenumber(Optional)"
+                    outlined
+                  ></v-text-field>
                   <h4 v-if="alertSuccessNot">Password</h4>
                   <v-text-field
                     v-if="alertSuccessNot"
@@ -88,7 +95,7 @@
                     name="input-10-2"
                     @click:append="show4 = !show4"
                   ></v-text-field>
-                  <v-checkbox v-if="alertSuccessNot" label="Accept Terms" required></v-checkbox>
+                  <v-checkbox v-if="alertSuccessNot" label="I agree to the payfarm Terms & Conditions" required></v-checkbox>
                   <v-alert v-if="alertSuccess" type="success">
                   Success! Please check your email!
                   </v-alert>
@@ -127,6 +134,7 @@ export default {
       email: '',
       phone: '',
       password: '',
+      referral: '',
       confirmpassword: '',
       status: false,
       isLoading: 'Register',
@@ -165,6 +173,7 @@ export default {
        email: this.email,
        phone: this.phone,
        password: this.password,
+       referral: this.referral,
      });
      console.log(response)
      this.isLoading = 'Register'
