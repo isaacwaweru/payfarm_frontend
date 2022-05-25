@@ -37,11 +37,30 @@
       <v-toolbar-title class="title">MY FARM ANIMALS</v-toolbar-title>
 
       <v-spacer></v-spacer>
+      <div class="inv">
+        <v-btn
+          class="ma-2"
+          small
+          outlined
+          @click.stop="investments = true"
+          color="#fcb603"
+          rounded
+          >Investments</v-btn
+        >
 
+        <v-btn
+          class="ma-2"
+          small
+          outlined
+          @click.stop="trans = true"
+          color="#fc0356"
+          rounded
+          >Transactions</v-btn
+        >
+      </div>
       <v-subheader class="sub">
-        <h2>KES:{{ user.amount }}</h2>
+        <h2>Bal:{{ user.amount }}</h2>
       </v-subheader>
-
       <v-btn
         class="ma-2"
         small
@@ -61,6 +80,28 @@
         >Deposit</v-btn
       >
     </v-toolbar>
+    <v-toolbar class="unity" dense color="#0B0636" dark>
+      <v-spacer></v-spacer>
+      <v-btn
+        class="ma-2"
+        small
+        outlined
+        @click.stop="investments = true"
+        color="#fcb603"
+        rounded
+        >Investments</v-btn
+      >
+
+      <v-btn
+        class="ma-2"
+        small
+        outlined
+        @click.stop="trans = true"
+        color="#fc0356"
+        rounded
+        >Transactions</v-btn
+      >
+    </v-toolbar>
 
     <div class="background">
       <v-col>
@@ -71,22 +112,60 @@
           }"
         >
           <div class="card-2">
-            <h1
-              style="
-                color: #231d4f;
-                font-weight: 500;
-                padding-top: 25px !important;
-              "
-              class="mt-6 ml-6"
-            >
-              No animal
-              <span
-                style="color: #848199; font-weight: 300; font-size: 18px"
-              ></span>
-            </h1>
-            <h2 style="color: #231d4f; font-weight: 500" class="ml-6">
-              Buy animal
-            </h2>
+            <div v-if="cart === 0">
+              <h1
+                style="
+                  color: #231d4f;
+                  font-weight: 500;
+                  padding-top: 25px !important;
+                "
+                class="mt-6 ml-6"
+              >
+                No animal
+                <span
+                  style="color: #848199; font-weight: 300; font-size: 18px"
+                ></span>
+              </h1>
+              <h2 style="color: #231d4f; font-weight: 500" class="ml-6">
+                Buy animal now
+              </h2>
+            </div>
+            <div v-if="cart !== 70 && cart !== 0">
+              <h1
+                style="
+                  color: #231d4f;
+                  font-weight: 500;
+                  padding-top: 25px !important;
+                "
+                class="mt-6 ml-6"
+              >
+                You've added
+                <span
+                  style="color: #848199; font-weight: 300; font-size: 18px"
+                ></span>
+              </h1>
+              <h2 style="color: #231d4f; font-weight: 500" class="ml-6">
+                {{ cart }} Chicken
+              </h2>
+            </div>
+            <div v-if="cart === 70">
+              <h1
+                style="
+                  color: #231d4f;
+                  font-weight: 500;
+                  padding-top: 25px !important;
+                "
+                class="mt-6 ml-6"
+              >
+                Please now invest
+                <span
+                  style="color: #848199; font-weight: 300; font-size: 18px"
+                ></span>
+              </h1>
+              <h2 style="color: #231d4f; font-weight: 500" class="ml-6">
+                {{ cart }} Chicken
+              </h2>
+            </div>
             <v-divider width="250" class="ml-6" />
             <p
               style="
@@ -98,37 +177,39 @@
             >
               <!-- Your chick is 3 months old -->
             </p>
-            <!-- <v-img
+            <v-img
               lazy-src="../assets/chicken/sixweeks.svg"
               max-height="300"
               max-width="300"
               src="../assets/chicken/sixweeks.svg"
               style="margin: auto !important"
               class="mt-16"
-            ></v-img> -->
+            ></v-img>
             <div class="center_all1">
               <h1 class="chick">{{ cart }}</h1>
             </div>
             <div class="center_all mt-16">
               <v-btn
-                class="ma-2"
+                class="ma-2 mt-10"
                 v-bind="attrs"
-                @click="removeFromCart"
-                color="#a88b32"
+                @click="addToCart"
+                color="black"
                 small
                 rounded
-                >-</v-btn
+                width="90"
+                ><v-icon dark color="white"> mdi-plus </v-icon></v-btn
               >
-              {{ cart }}
               <v-btn
                 class="ma-2"
                 v-bind="attrs"
-                @click="addToCart"
-                color="#53C351"
+                @click="removeFromCart"
+                color="black"
                 small
                 rounded
-                >+</v-btn
+                width="90"
               >
+                <v-icon dark color="white"> mdi-minus </v-icon>
+              </v-btn>
             </div>
           </div>
           <v-row class="ml-5">
@@ -157,8 +238,10 @@
         <v-dialog v-model="dialog" scrollable max-width="600">
           <!-- kk -->
           <v-card>
-            <v-toolbar color="#53C351" dark>Deposit to your wallet</v-toolbar>
-            <h5 class="pl-3 pt-1 mb-3 mt-2">Enter amount</h5>
+            <v-toolbar class="pl-8" color="#53C351" dark
+              >Deposit to your wallet</v-toolbar
+            >
+            <h5 class="ml-12 pt-1 mb-3 mt-2">Enter amount</h5>
             <form class="ml-8 mr-8" v-on:submit.prevent="submitForm">
               <v-text-field
                 v-model="dialogm1"
@@ -171,15 +254,23 @@
               ></v-text-field>
 
               <v-alert v-if="alertSuccess" type="success">
-                Success! Please check your phone!
+                Request sent! Please check your phone!
               </v-alert>
 
               <v-btn type="submit" color="#e1a11c" dark class="ml-4">
-                Deposit
+                {{ isLoading }}
               </v-btn>
             </form>
             <v-card-actions class="justify-end">
-              <v-btn text @click="dialog = false">Close</v-btn>
+              <v-btn
+                text
+                @click="
+                  dialog = false;
+                  dialogm1 = null;
+                  alertSuccess = false;
+                "
+                >Close</v-btn
+              >
             </v-card-actions>
           </v-card>
           <!-- kk end -->
@@ -196,11 +287,13 @@
           max-width="600"
         >
           <v-card>
-            <v-toolbar color="#53C351" dark>Withdraw to M-pesa</v-toolbar>
-            <h5 class="pl-3 pt-1 mb-3 mt-2">
+            <v-toolbar class="pl-4" color="#53C351" dark
+              >Withdraw to M-pesa</v-toolbar
+            >
+            <h5 class="ml-8 pt-1 mb-3 mt-2">
               Enter the amount you want to withdraw
             </h5>
-            <form class="ml-8 mr-8" v-on:submit.prevent="submitForm">
+            <form class="ml-3 mr-8" v-on:submit.prevent="withDraw">
               <v-text-field
                 v-model="amount"
                 label="Amount"
@@ -211,23 +304,41 @@
                 type="number"
               ></v-text-field>
 
-              <v-alert v-if="alertSuccess" type="success">
-                Success! Please check your phone!
+              <v-alert v-if="alertFailed1" type="error">
+                Sorry! You cannot withdraw amount less than KES 10!
+              </v-alert>
+
+              <v-alert v-if="alertFailed" type="error">
+                Sorry! You have insuffient funds!
+              </v-alert>
+
+              <v-alert v-if="alertWithdrawSuccess" type="success">
+                Request sent! Please wait the SMS confirmation
               </v-alert>
 
               <v-btn type="submit" color="#e1a11c" dark class="ml-4">
-                Withdraw
+                {{ isLoading }}
               </v-btn>
             </form>
             <v-card-actions class="justify-end">
-              <v-btn text @click="dialog1 = false">Close</v-btn>
+              <v-btn
+                text
+                @click="
+                  dialog1 = false;
+                  alertFailed = false;
+                  alertFailed1 = false;
+                  amount = null;
+                  alertWithdrawSuccess = false;
+                "
+                >Close</v-btn
+              >
             </v-card-actions>
           </v-card>
         </v-dialog>
       </v-row>
     </template>
 
-    <!-- Deliver animal now -->
+    <!-- Checkout animal now -->
     <template>
       <v-row justify="center">
         <v-dialog
@@ -236,40 +347,73 @@
           max-width="600"
         >
           <v-card>
-            <v-toolbar color="#e1a11c" dark>Checkout Summary</v-toolbar>
-            <h1 class="pl-3 pt-1 mb-3 mt-2">Subtotal KSH:{{ investment }}</h1>
-            <form class="ml-8 mr-8" v-on:submit.prevent="submitForm">
-              <v-alert v-if="alertSuccess" type="success">
-                Success! Please check your phone!
+            <v-toolbar class="pl-8" color="#e1a11c" dark
+              >Checkout Summary</v-toolbar
+            >
+            <h3
+              style="
+                color: #231d4f;
+                font-weight: 500;
+                padding-top: 10px !important;
+              "
+              class="mt-2 ml-12"
+            >
+              Animal growth period
+              <span style="color: #848199; font-weight: 300; font-size: 18px">
+                <v-btn text @click="dialog3 = true" color="#0b4cd9">
+                  see more
+                </v-btn>
+              </span>
+            </h3>
+            <h3 class="pl-3 pt-1 mb-3 ml-9">Subtotal KSH:{{ investment }}</h3>
+            <form class="ml-8 mr-8" v-on:submit.prevent="checkOutNow">
+              <v-alert v-if="alertSuccess1" type="success">
+                Success! You successfully invested!
               </v-alert>
-
+              <v-alert v-if="alertError2" type="error">
+                Sorry you cannot invest 0 chicken
+              </v-alert>
+              <v-alert v-if="alertError" type="error">
+                <v-row align="center">
+                  <v-col class="grow">
+                    Sorry! You have insuffient funds!
+                  </v-col>
+                  <v-col class="shrink">
+                    <v-btn
+                      @click="
+                        dialog2 = false;
+                        dialog = true;
+                        alertError = false;
+                      "
+                      color="#53C351"
+                      dark
+                      >Deposit now</v-btn
+                    >
+                  </v-col>
+                </v-row>
+              </v-alert>
               <v-btn type="submit" color="#e1a11c" dark class="ml-4">
-                Checkout (KSH {{ investment }})
+                Confirm (KSH {{ investment }})
               </v-btn>
-
-              <h3
-                style="
-                  color: #231d4f;
-                  font-weight: 500;
-                  padding-top: 25px !important;
-                "
-                class="mt-6 ml-6"
-              >
-                Animal growth period
-                <span style="color: #848199; font-weight: 300; font-size: 18px">
-                  <v-btn text @click="dialog3 = true" color="#0b4cd9">
-                    see more
-                  </v-btn>
-                </span>
-              </h3>
             </form>
             <v-card-actions class="justify-end">
-              <v-btn text @click="dialog2 = false">Close</v-btn>
+              <v-btn
+                text
+                @click="
+                  dialog2 = false;
+                  alertSuccess1 = false;
+                  alertError = false;
+                  investment = null;
+                  alertError2 = false;
+                "
+                >Close</v-btn
+              >
             </v-card-actions>
           </v-card>
         </v-dialog>
       </v-row>
     </template>
+    <!-- Terms of your investments -->
     <template>
       <v-row justify="center">
         <v-dialog v-model="dialog3" max-width="290">
@@ -292,6 +436,64 @@
         </v-dialog>
       </v-row>
     </template>
+    <!-- Transactions -->
+    <template>
+      <v-row justify="center">
+        <v-dialog scrollable v-model="trans" max-width="600">
+          <v-card>
+            <v-toolbar class="pl-8" color="#fc0356" dark
+              >Transaction History</v-toolbar
+            >
+            <v-card-text style="height: 300px">
+              <v-list-item
+                v-for="transaction in this.user.transactions.slice().reverse()"
+                :key="transaction.time"
+              >
+                <v-list-item-content>
+                  <v-list-item-title
+                    ><h2 :class="{ 'red': transaction.trans_type === 'Withdraw', 'green': transaction.trans_type !== 'Withdraw'  }">
+                      {{ transaction.trans_type }} 
+                      <span>Kes:{{ transaction.amount }}</span>
+                    </h2></v-list-item-title
+                  >
+                  <v-list-item-subtitle>{{
+                    transaction.time | moment("dddd, MMMM Do YYYY")
+                  }}</v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </v-card-text>
+            <v-divider></v-divider>
+            <v-card-actions>
+              <v-btn color="#fc0356" text @click="trans = false"> Close </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-row>
+    </template>
+    <!-- Investments -->
+    <template>
+      <v-row justify="center">
+        <v-dialog scrollable v-model="investments" max-width="600">
+          <v-card>
+            <v-toolbar class="pl-8" color="#fcb603" dark
+              >Your Investments</v-toolbar
+            >
+
+            <v-card-text>
+              Sorry! Coming soon
+            </v-card-text>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+
+              <v-btn color="#fcb603" text @click="investments = false">
+                Close
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-row>
+    </template>
   </div>
 </template>
 
@@ -300,6 +502,7 @@ import Lottie from "../LottieView.vue";
 import animationData2 from "../assets/feed.json";
 import axios from "axios";
 import { mapGetters } from "vuex";
+import { setTimeout } from "timers-browserify";
 
 export default {
   components: {
@@ -318,39 +521,54 @@ export default {
       investment: 0,
       isLoading: "Confirm",
       alertSuccess: false,
+      alertSuccess1: false,
+      alertError: false,
+      alertError2: false,
       feedNow: true,
       dialogm1: "",
       dialog: false,
       dialog1: false,
       dialog2: false,
       dialog3: false,
+      investments: false,
+      trans: false,
+      alertFailed: false,
+      alertFailed1: false,
+      alertWithdrawSuccess: false,
     };
   },
-
-  mounted() {
-    this.$store.dispatch("getUser");
-    this.loadUser();
+  async mounted() {
+    try {
+      const response = await axios.get("user");
+      console.log(response.data);
+      this.$store.dispatch("user", response.data);
+    } catch (error) {
+      console.log(error);
+      this.$router.push("/signin");
+    }
   },
-
-  created() {
-    // this.loadUser();
-  },
-
   methods: {
+    dateFormat(v) {
+      return (v) => {
+        let format = (d) =>
+          d.toString().replace(/\w+ (\w+) (\d+) (\d+).*/, "$2 $1, $3");
+        return format(new Date(v));
+      };
+    },
     async loadUser() {
       try {
-        const response = await axios.get(`users/${this.user._id}`);
-        console.log(response.data.user);
-        this.$store.dispatch("user", response.data.user);
+        const response = await axios.get("user");
+        console.log(response.data);
+        this.$store.dispatch("user", response.data);
       } catch (error) {
         console.log(error);
+        this.$router.push("/signin");
       }
-      setTimeout(this.loadPatients, 10000);
     },
     handleClick() {
       this.$store.dispatch("deleteUser");
       localStorage.removeItem("token");
-      this.$router.push("/");
+      this.$router.push("/signin");
     },
     async submitForm() {
       this.isLoading = "Please wait...";
@@ -365,13 +583,58 @@ export default {
         this.isLoading = "Confirm";
         this.alertSuccess = true;
         this.feedNow = false;
+        // setTimeout(this.loadUser, 30000);
+        setTimeout(
+          function () {
+            this.loadUser();
+          }.bind(this),
+          20000
+        );
       } catch (e) {
         this.alertError = true;
         this.isLoading = "Confirm";
       }
     },
+    async withDraw() {
+      if (this.amount < 10) {
+        this.alertFailed1 = true;
+        this.alertFailed = false;
+        this.alertWithdrawSuccess = false;
+      } else if (this.amount > this.user.amount) {
+        this.alertFailed = true;
+        this.alertFailed1 = false;
+        this.alertWithdrawSuccess = false;
+      } else {
+        // Make withdraw request
+        this.isLoading = "Please wait...";
+        const phone = "254" + String(this.user.phone).slice(-9).trim();
+        const data = {
+          phone: phone,
+          amount: this.amount,
+        };
+        try {
+          const response = await axios.post("b2c", data);
+          console.log(response);
+          this.isLoading = "Confirm";
+          this.alertWithdrawSuccess = true;
+          this.feedNow = false;
+          this.amount = "";
+          this.alertFailed = false;
+          this.alertFailed1 = false;
+          setTimeout(
+            function () {
+              this.loadUser();
+            }.bind(this),
+            10000
+          );
+        } catch (e) {
+          this.alertError = true;
+          this.isLoading = "Confirm";
+        }
+      }
+    },
     addToCart() {
-      if (this.cart >= 0) {
+      if (this.cart !== 70) {
         this.cart++;
         this.investment = this.cart * 1000;
       }
@@ -382,10 +645,24 @@ export default {
         this.investment = this.cart * 1000;
       }
     },
+    checkOutNow() {
+      if (
+        this.user.amount < this.investment &&
+        this.user.amount !== this.investment
+      ) {
+        this.alertError = true;
+        this.alertSuccess1 = false;
+      } else if (this.cart == 0) {
+        this.alertError2 = true;
+      } else {
+        this.alertSuccess1 = true;
+        this.alertError = false;
+      }
+    },
   },
 
   computed: {
-    ...mapGetters(["user"]),
+    ...mapGetters(["user", "iduser"]),
   },
 
   getGreetingTime(m) {
@@ -413,18 +690,26 @@ export default {
 </script>
 
 <style scoped>
+.red {
+  color: red !important;
+  background-color: white !important;
+}
+.green {
+  color: green;
+  background-color: white !important;
+}
 .chick {
   font-size: 50px;
 }
 .center_all {
   position: absolute;
   top: 50%;
-  left: 20%;
+  left: 30%;
 }
 .center_all1 {
   position: absolute;
-  top: 50%;
-  left: 42%;
+  top: 47%;
+  left: 50%;
 }
 .sub-1 {
   font-size: 9px !important;
@@ -464,6 +749,9 @@ export default {
   .title-1 {
     display: none;
   }
+  .unity {
+    display: none;
+  }
 }
 @media screen and (max-width: 425px) {
   .greeting {
@@ -472,10 +760,16 @@ export default {
   .title {
     display: none;
   }
+  .inv {
+    display: none;
+  }
 }
 @media screen and (max-width: 320px) {
   .v-subheader {
     padding: 0px !important;
+  }
+  .inv {
+    display: none;
   }
 }
 </style>

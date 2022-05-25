@@ -120,7 +120,6 @@ export default {
         password: this.password
       });
       localStorage.setItem('token', response.data.token);
-      this.$store.dispatch('user', response.data.user);
       this.isLoading = 'Login'
       this.$router.push('/inside')
       } catch (e) {

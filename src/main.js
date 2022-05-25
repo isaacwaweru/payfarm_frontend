@@ -6,6 +6,8 @@ import store from "./store";
 import vuetify from "./plugins/vuetify";
 import './axios'
 
+Vue.use(require('vue-moment'));
+
 Vue.config.productionTip = false;
 
 new Vue({

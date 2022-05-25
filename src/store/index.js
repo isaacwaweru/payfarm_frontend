@@ -8,7 +8,8 @@ Vue.use(Vuex);
 
 const state = {
   user: null,
-  chicken: null
+  chicken: null,
+  userId: null
 }
 
 export default new Vuex.Store({
@@ -16,15 +17,26 @@ export default new Vuex.Store({
   getters: {
     user: (state) => {
       return state.user;
+    },
+    iduser: (state) => {
+      return state.userId;
     }
   },
   mutations: {
     user(state, user) {
       state.user = user
+      state.userId = user._id
     }
   },
   actions: {
     user(context, user) {
+      db.delete().then(() => {
+        db.collection('users').add(user).then(() => {
+          context.commit('user', user);
+        })
+      })
+    },
+    checkPayment(context, user) {
       db.delete().then(() => {
         db.collection('users').add(user).then(() => {
           context.commit('user', user);
