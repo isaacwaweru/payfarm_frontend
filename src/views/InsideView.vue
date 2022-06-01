@@ -53,7 +53,7 @@
           small
           outlined
           @click.stop="trans = true"
-          color="#fc0356"
+          color="#f"
           rounded
           >Transactions</v-btn
         >
@@ -97,7 +97,7 @@
         small
         outlined
         @click.stop="trans = true"
-        color="#fc0356"
+        color="#fff"
         rounded
         >Transactions</v-btn
       >
@@ -368,7 +368,7 @@
             <h3 class="pl-3 pt-1 mb-3 ml-9">Subtotal KSH:{{ investment }}</h3>
             <form class="ml-8 mr-8" v-on:submit.prevent="checkOutNow">
               <v-alert v-if="alertSuccess1" type="success">
-                Success! You successfully invested!
+                Success! You invested!
               </v-alert>
               <v-alert v-if="alertError2" type="error">
                 Sorry you cannot invest 0 chicken
@@ -393,7 +393,7 @@
                 </v-row>
               </v-alert>
               <v-btn type="submit" color="#e1a11c" dark class="ml-4">
-                Confirm (KSH {{ investment }})
+                {{ confirm }}
               </v-btn>
             </form>
             <v-card-actions class="justify-end">
@@ -405,6 +405,8 @@
                   alertError = false;
                   investment = null;
                   alertError2 = false;
+                  investment = 0;
+                  cart = 0;
                 "
                 >Close</v-btn
               >
@@ -441,7 +443,7 @@
       <v-row justify="center">
         <v-dialog scrollable v-model="trans" max-width="600">
           <v-card>
-            <v-toolbar class="pl-8" color="#fc0356" dark
+            <v-toolbar class="pl-5" color="#231d4f" dark
               >Transaction History</v-toolbar
             >
             <v-card-text style="height: 300px">
@@ -451,20 +453,27 @@
               >
                 <v-list-item-content>
                   <v-list-item-title
-                    ><h2 :class="{ 'red': transaction.trans_type === 'Withdraw', 'green': transaction.trans_type !== 'Withdraw'  }">
-                      {{ transaction.trans_type }} 
-                      <span>Kes:{{ transaction.amount }}</span>
-                    </h2></v-list-item-title
+                    ><h4
+                      :class="{
+                        red: transaction.trans_type === 'Withdraw',
+                        green: transaction.trans_type !== 'Withdraw',
+                      }"
+                    >
+                      {{ transaction.trans_type }}
+                      <span style="color: #53c351"
+                        >Kes:{{ transaction.amount }}</span
+                      >
+                    </h4></v-list-item-title
                   >
                   <v-list-item-subtitle>{{
-                    transaction.time | moment("dddd, MMMM Do YYYY")
+                    transaction.time | moment("MMMM Do, h:mm a")
                   }}</v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
             </v-card-text>
             <v-divider></v-divider>
-            <v-card-actions>
-              <v-btn color="#fc0356" text @click="trans = false"> Close </v-btn>
+            <v-card-actions class="justify-end">
+              <v-btn color="#231d4f" text @click="trans = false"> Close </v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -474,18 +483,45 @@
     <template>
       <v-row justify="center">
         <v-dialog scrollable v-model="investments" max-width="600">
-          <v-card>
-            <v-toolbar class="pl-8" color="#fcb603" dark
+          <v-card >
+            <v-toolbar class="pl-5" color="#fcb603" dark
               >Your Investments</v-toolbar
             >
-
-            <v-card-text>
-              Sorry! Coming soon
+            <v-card-text  style="height: 300px">
+              <v-list-item
+                v-for="investment in this.user.investments.slice().reverse()"
+                :key="investment.time"
+              >
+                <v-list-item-content>
+                  <v-list-item-title
+                    ><h4>
+                      {{ investment.investment }}
+                    </h4></v-list-item-title
+                  >
+                  <v-list-item-subtitle>
+                    <p
+                      :class="{
+                        red: investment.status !== 'Active',
+                        green: investment.status === 'Active',
+                      }"
+                    >
+                      {{ investment.status }}
+                      <span style="color: #969997"
+                        >Invested:
+                        {{
+                          investment.time | moment("MMMM Do, h:mm a")
+                        }}</span
+                      >
+                    </p>
+                    Due: {{investment.dueDate | moment("MMMM Do, h:mm a")}}
+                    </v-list-item-subtitle
+                  >
+                </v-list-item-content>
+                <divider></divider>
+              </v-list-item>
             </v-card-text>
-
-            <v-card-actions>
-              <v-spacer></v-spacer>
-
+            <v-divider></v-divider>
+            <v-card-actions class="justify-end">
               <v-btn color="#fcb603" text @click="investments = false">
                 Close
               </v-btn>
@@ -535,6 +571,7 @@ export default {
       alertFailed: false,
       alertFailed1: false,
       alertWithdrawSuccess: false,
+      confirm: "Confirm",
     };
   },
   async mounted() {
@@ -643,20 +680,41 @@ export default {
       if (this.cart > 0) {
         this.cart--;
         this.investment = this.cart * 1000;
+        this.alertError = false;
       }
     },
-    checkOutNow() {
+    async checkOutNow() {
       if (
         this.user.amount < this.investment &&
         this.user.amount !== this.investment
       ) {
         this.alertError = true;
+        this.alertError2 = false;
         this.alertSuccess1 = false;
       } else if (this.cart == 0) {
         this.alertError2 = true;
       } else {
-        this.alertSuccess1 = true;
-        this.alertError = false;
+        const data = {
+          userid: this.user._id,
+          investment: `${this.cart} Chicken @ Kes ${this.investment}`,
+          amount: this.investment,
+          status: "Active",
+          referrals: [],
+        };
+        this.confirm = "Please wait...";
+        try {
+          const response = await axios.post("investment", data);
+          console.log(response);
+          this.alertSuccess1 = true;
+          this.alertError = false;
+          this.confirm = "Confirm";
+          this.investment = 0;
+          this.cart = 0;
+          this.loadUser();
+        } catch (e) {
+          this.alertError = true;
+          this.isLoading = "Confirm";
+        }
       }
     },
   },

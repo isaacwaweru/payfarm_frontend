@@ -121,7 +121,7 @@ export default {
       });
       localStorage.setItem('token', response.data.token);
       this.isLoading = 'Login'
-      this.$router.push('/inside')
+      this.$router.push('/home')
       } catch (e) {
         this.alertError = true
         this.isLoading = 'Login'

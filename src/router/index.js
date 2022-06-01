@@ -55,7 +55,7 @@ const routes = [
     component: Activate,
   },
   {
-    path: "/inside",
+    path: "/home",
     name: "inside",
     component: InsideView,
   },
