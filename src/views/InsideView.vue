@@ -667,7 +667,7 @@ export default {
       phone: "",
       amount: "",
       location: "",
-      feedAnimal: "Checkout Now",
+      feedAnimal: "Checkout",
       cart: 0,
       chicken: null,
       investment: 0,
