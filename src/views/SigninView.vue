@@ -54,7 +54,7 @@
                     counter
                     @click:append="show1 = !show1"
                   ></v-text-field>
-                  <v-checkbox label="Remember me?" required></v-checkbox>
+                  <v-checkbox label="Remember me?"></v-checkbox>
 
                   <v-alert v-if="alertError" type="error">
                   Failed! Invalid email or password!
@@ -116,7 +116,7 @@ export default {
       this.isLoading = 'Please wait...'
       try {
         const response = await axios.post('login', {
-        email: this.email.trim(),
+        email: this.email.trim().toLowerCase(),
         password: this.password
       });
       localStorage.setItem('token', response.data.token);

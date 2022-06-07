@@ -59,7 +59,7 @@
         >
       </div>
       <v-subheader class="sub">
-        <h2>Bal:{{ user.amount }}</h2>
+        <h2>Bal:{{ user.amount.toFixed(3) }}</h2>
       </v-subheader>
       <v-btn
         class="ma-2"
@@ -178,10 +178,10 @@
               <!-- Your chick is 3 months old -->
             </p>
             <v-img
-              lazy-src="../assets/chicken/sixweeks.svg"
+              lazy-src="../assets/chicken/6.svg"
               max-height="300"
               max-width="300"
-              src="../assets/chicken/sixweeks.svg"
+              src="../assets/chicken/6.svg"
               style="margin: auto !important"
               class="mt-16"
             ></v-img>
@@ -221,9 +221,8 @@
             <v-col>
               <v-btn
                 small
-                outlined
                 @click.stop="dialog2 = true"
-                color="#fff"
+                color="success"
                 rounded
                 >{{ feedAnimal }}</v-btn
               >
@@ -447,6 +446,9 @@
               >Transaction History</v-toolbar
             >
             <v-card-text style="height: 300px">
+              <v-text v-if="user.transactions.length === 0">
+                No transactions
+              </v-text>
               <v-list-item
                 v-for="transaction in this.user.transactions.slice().reverse()"
                 :key="transaction.time"
@@ -483,13 +485,16 @@
     <template>
       <v-row justify="center">
         <v-dialog scrollable v-model="investments" max-width="600">
-          <v-card >
+          <v-card>
             <v-toolbar class="pl-5" color="#fcb603" dark
               >Your Investments</v-toolbar
             >
-            <v-card-text  style="height: 300px">
+            <v-card-text style="height: 300px">
+              <v-text v-if="user.investments.length === 0">
+                No investments
+              </v-text>
               <v-list-item
-                v-for="investment in this.user.investments.slice().reverse()"
+                v-for="investment in this.userUpdate.slice().reverse()"
                 :key="investment.time"
               >
                 <v-list-item-content>
@@ -500,24 +505,133 @@
                   >
                   <v-list-item-subtitle>
                     <p
-                      :class="{
-                        red: investment.status !== 'Active',
-                        green: investment.status === 'Active',
-                      }"
+                      v-if="dateDifference(investment.time) !== 120"
+                      class="green"
                     >
-                      {{ investment.status }}
+                      Active
                       <span style="color: #969997"
                         >Invested:
-                        {{
-                          investment.time | moment("MMMM Do, h:mm a")
-                        }}</span
+                        {{ investment.time | moment("MMMM Do, h:mm a") }}</span
                       >
                     </p>
-                    Due: {{investment.dueDate | moment("MMMM Do, h:mm a")}}
-                    </v-list-item-subtitle
-                  >
+                    <p
+                      v-if="dateDifference(investment.time) === 120"
+                      class="red"
+                    >
+                      Complete
+                      <span style="color: #969997"
+                        >Invested:
+                        {{ investment.time | moment("MMMM Do, h:mm a") }}</span
+                      >
+                    </p>
+                    <p>
+                      Due: {{ investment.dueDate | moment("MMMM Do, h:mm a") }}
+                    </p>
+                    <p>
+                      Your chicken is
+                      <span style="color: #231d4f; font-size: 16px"
+                        >{{ dateDifference(investment.time) }} days
+                      </span>
+                      old
+                    </p>
+                  </v-list-item-subtitle>
+                  <v-row>
+                    <v-col
+                      ><v-img
+                        v-if="dateDifference(investment.time) === 0"
+                        lazy-src="../assets/chicken/0.svg"
+                        max-height="150"
+                        max-width="150"
+                        src="../assets/chicken/0.svg"
+                        style="margin: auto !important"
+                        class="mt-16"
+                      ></v-img>
+                      <v-img
+                        v-else-if="dateDifference(investment.time) === 1"
+                        lazy-src="../assets/chicken/1.svg"
+                        max-height="150"
+                        max-width="150"
+                        src="../assets/chicken/1.svg"
+                        style="margin: auto !important"
+                        class="mt-16"
+                      ></v-img>
+                      <v-img
+                        v-else-if="dateDifference(investment.time) === 2"
+                        lazy-src="../assets/chicken/2.svg"
+                        max-height="150"
+                        max-width="150"
+                        src="../assets/chicken/2.svg"
+                        style="margin: auto !important"
+                        class="mt-16"
+                      ></v-img>
+                      <v-img
+                        v-else-if="dateDifference(investment.time) === 3"
+                        lazy-src="../assets/chicken/3.svg"
+                        max-height="150"
+                        max-width="150"
+                        src="../assets/chicken/3.svg"
+                        style="margin: auto !important"
+                        class="mt-16"
+                      ></v-img>
+                      <v-img
+                        v-else-if="dateDifference(investment.time) === 4"
+                        lazy-src="../assets/chicken/4.svg"
+                        max-height="150"
+                        max-width="150"
+                        src="../assets/chicken/4.svg"
+                        style="margin: auto !important"
+                        class="mt-16"
+                      ></v-img>
+                      <v-img
+                        v-else-if="dateDifference(investment.time) === 5"
+                        lazy-src="../assets/chicken/5.svg"
+                        max-height="150"
+                        max-width="150"
+                        src="../assets/chicken/5.svg"
+                        style="margin: auto !important"
+                        class="mt-16"
+                      ></v-img>
+                      <v-img
+                        v-else-if="dateDifference(investment.time) === 6"
+                        lazy-src="../assets/chicken/6.svg"
+                        max-height="150"
+                        max-width="150"
+                        src="../assets/chicken/6.svg"
+                        style="margin: auto !important"
+                        class="mt-16"
+                      ></v-img>
+                      <v-img
+                        v-else
+                        lazy-src="../assets/chicken/6.svg"
+                        max-height="150"
+                        max-width="150"
+                        src="../assets/chicken/6.svg"
+                        style="margin: auto !important"
+                        class="mt-16"
+                      ></v-img>
+                    </v-col>
+                    <v-col
+                      ><v-form
+                        v-if="
+                          investment.collect[0].day ===
+                            dateDifference(investment.time).toString() &&
+                          investment.collect[0].day !== zero
+                        "
+                        v-on:submit.prevent="
+                          collectNow(
+                            investment.index,
+                            dateDifference(investment.time)
+                          )
+                        "
+                      >
+                        <v-btn type="submit" class="ma-2" color="success">
+                          Collect
+                        </v-btn>
+                      </v-form></v-col
+                    >
+                  </v-row>
+                  <v-divider></v-divider>
                 </v-list-item-content>
-                <divider></divider>
               </v-list-item>
             </v-card-text>
             <v-divider></v-divider>
@@ -546,12 +660,14 @@ export default {
   },
   data() {
     return {
+      zero: "0",
+      index: "",
       mobile: { animationData: animationData2 },
       animationSpeed: 3,
       phone: "",
       amount: "",
       location: "",
-      feedAnimal: "Checkout",
+      feedAnimal: "Checkout Now",
       cart: 0,
       chicken: null,
       investment: 0,
@@ -572,6 +688,7 @@ export default {
       alertFailed1: false,
       alertWithdrawSuccess: false,
       confirm: "Confirm",
+      today: new Date(),
     };
   },
   async mounted() {
@@ -585,12 +702,26 @@ export default {
     }
   },
   methods: {
+    dateDifference(first) {
+      return Math.round((this.today - first) / (1000 * 60 * 60 * 24));
+    },
     dateFormat(v) {
       return (v) => {
         let format = (d) =>
           d.toString().replace(/\w+ (\w+) (\d+) (\d+).*/, "$2 $1, $3");
         return format(new Date(v));
       };
+    },
+    async updateInvestment() {
+      const data = {
+        userid: user._id,
+      };
+      try {
+        const response = await axios.post("investmentUpdate", data);
+        console.log(response.data);
+      } catch (error) {
+        console.log(error);
+      }
     },
     async loadUser() {
       try {
@@ -694,12 +825,23 @@ export default {
       } else if (this.cart == 0) {
         this.alertError2 = true;
       } else {
+        const referralData = {
+          referralOne: this.user.referral.level_one,
+          referralTwo: this.user.referral.level_two,
+          referralThree: this.user.referral.level_three,
+        };
         const data = {
           userid: this.user._id,
           investment: `${this.cart} Chicken @ Kes ${this.investment}`,
           amount: this.investment,
           status: "Active",
-          referrals: [],
+          referrals: referralData,
+          collect: [
+            {
+              day: "1",
+              status: "complete",
+            },
+          ],
         };
         this.confirm = "Please wait...";
         try {
@@ -717,39 +859,49 @@ export default {
         }
       }
     },
+    async collectNow(index, day) {
+      const dayUpdate = day + 1;
+      const data = {
+        userid: this.user._id,
+        index: index,
+        collect: [
+          {
+            day: dayUpdate.toString(),
+            status: "complete",
+          },
+        ],
+      };
+      try {
+        const response = await axios.post("investmentUpdate", data);
+        console.log(response);
+        this.loadUser();
+      } catch (e) {
+        this.alertError = true;
+        this.isLoading = "Confirm";
+      }
+    },
+    setIndex(items) {
+      for (let i = 0; i < items.length; i++) {
+        items[i].index = i;
+      }
+      return items;
+    },
   },
-
   computed: {
     ...mapGetters(["user", "iduser"]),
-  },
-
-  getGreetingTime(m) {
-    var g = null; //return g
-
-    if (!m || !m.isValid()) {
-      return;
-    } //if we can't find a valid or filled moment, we return.
-
-    var split_afternoon = 12; //24hr time to split the afternoon
-    var split_evening = 17; //24hr time to split the evening
-    var currentHour = parseFloat(m.format("HH"));
-
-    if (currentHour >= split_afternoon && currentHour <= split_evening) {
-      g = "afternoon";
-    } else if (currentHour >= split_evening) {
-      g = "evening";
-    } else {
-      g = "morning";
-    }
-
-    return g;
+    userUpdate() {
+      let newuser = this.user;
+      if (newuser) {
+        return this.setIndex(newuser.investments);
+      } else return newuser;
+    },
   },
 };
 </script>
 
 <style scoped>
 .red {
-  color: red !important;
+  color: #f5ce42 !important;
   background-color: white !important;
 }
 .green {
@@ -803,7 +955,7 @@ export default {
   font-size: 18px;
   font-weight: 500;
 }
-@media screen and (min-width: 425px) {
+@media screen and (min-width: 641px) {
   .title-1 {
     display: none;
   }
@@ -811,7 +963,7 @@ export default {
     display: none;
   }
 }
-@media screen and (max-width: 425px) {
+@media screen and (max-width: 801px) {
   .greeting {
     display: none;
   }
