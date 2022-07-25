@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-axios.defaults.baseURL = 'https://payfarm.herokuapp.com/';
+axios.defaults.baseURL = 'https://whale-app-zl55c.ondigitalocean.app/';
 // axios.defaults.headers.common['Authorization'] = 'Bearer '+localStorage.getItem('token');
 
 // Add a request interceptor

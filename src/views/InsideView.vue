@@ -23,7 +23,7 @@
 
     <v-toolbar dense color="#0B0636" dark class="title-1">
       <v-subheader class="sub-1">
-        <h2>My Farm Animals</h2>
+        <h1>Bal:{{ user.amount.toFixed(3) }}</h1>
       </v-subheader>
 
       <v-spacer></v-spacer>
@@ -47,7 +47,15 @@
           rounded
           >Investments</v-btn
         >
-
+        <v-btn
+          class="ma-2"
+          small
+          outlined
+          @click.stop="stepper1 = true"
+          color="#ed6c55"
+          rounded
+          >ORDER Real Animal</v-btn
+        >
         <v-btn
           class="ma-2"
           small
@@ -59,10 +67,19 @@
         >
       </div>
       <v-subheader class="sub">
-        <h2>Bal:{{ user.amount.toFixed(3) }}</h2>
+        <h4 class="title">Bal:{{ user.amount.toFixed(3) }}</h4>
+        <v-btn
+          class="title-1"
+          small
+          outlined
+          @click.stop="stepper1 = true"
+          color="#ed6c55"
+          rounded
+          >Order</v-btn
+        >
       </v-subheader>
       <v-btn
-        class="ma-2"
+        class="mr-2"
         small
         outlined
         @click.stop="dialog1 = true"
@@ -71,7 +88,7 @@
         >Withdraw</v-btn
       >
       <v-btn
-        class="ma-2"
+        class="ma-1"
         v-bind="attrs"
         @click.stop="dialog = true"
         color="#53C351"
@@ -121,7 +138,7 @@
                 "
                 class="mt-6 ml-6"
               >
-                No animal
+                No animal?
                 <span
                   style="color: #848199; font-weight: 300; font-size: 18px"
                 ></span>
@@ -178,14 +195,13 @@
               <!-- Your chick is 3 months old -->
             </p>
             <v-img
-              lazy-src="../assets/chicken/6.svg"
-              max-height="300"
-              max-width="300"
-              src="../assets/chicken/6.svg"
+              lazy-src="../assets/chicken/14.svg"
+              max-height="200"
+              max-width="200"
+              src="../assets/chicken/14.svg"
               style="margin: auto !important"
-              class="mt-16"
             ></v-img>
-            <div class="center_all1">
+            <div class="center_all1 mt-6">
               <h1 class="chick">{{ cart }}</h1>
             </div>
             <div class="center_all mt-16">
@@ -490,11 +506,11 @@
               >Your Investments</v-toolbar
             >
             <v-card-text style="height: 300px">
-              <v-text v-if="user.investments.length === 0">
+              <v-text v-if="investmentsNow.length === 0">
                 No investments
               </v-text>
               <v-list-item
-                v-for="investment in this.userUpdate.slice().reverse()"
+                v-for="investment in investmentsNow"
                 :key="investment.time"
               >
                 <v-list-item-content>
@@ -504,25 +520,25 @@
                     </h4></v-list-item-title
                   >
                   <v-list-item-subtitle>
-                    <p
-                      v-if="dateDifference(investment.time) !== 120"
-                      class="green"
-                    >
-                      Active
+                    <p v-if="investment.status === Active" class="green">
+                      {{ investment.status }}
+                      <span style="color: #969997"
+                        >Invested:
+                        {{ investment.time | moment("MMMM Do, h:mm a") }}</span
+                      >
+                    </p>
+                    <p v-if="investment.status === Complete" class="red">
+                      {{ investment.status }}
                       <span style="color: #969997"
                         >Invested:
                         {{ investment.time | moment("MMMM Do, h:mm a") }}</span
                       >
                     </p>
                     <p
-                      v-if="dateDifference(investment.time) === 120"
-                      class="red"
+                      v-if="investment.status === Suspended"
+                      style="color: red"
                     >
-                      Complete
-                      <span style="color: #969997"
-                        >Invested:
-                        {{ investment.time | moment("MMMM Do, h:mm a") }}</span
-                      >
+                      {{ investment.status }}
                     </p>
                     <p>
                       Due: {{ investment.dueDate | moment("MMMM Do, h:mm a") }}
@@ -567,8 +583,8 @@
                       <v-img
                         v-else-if="dateDifference(investment.time) === 3"
                         lazy-src="../assets/chicken/3.svg"
-                        max-height="150"
-                        max-width="150"
+                        max-height="100"
+                        max-width="100"
                         src="../assets/chicken/3.svg"
                         style="margin: auto !important"
                         class="mt-16"
@@ -601,34 +617,87 @@
                         class="mt-16"
                       ></v-img>
                       <v-img
-                        v-else
-                        lazy-src="../assets/chicken/6.svg"
+                        v-else-if="dateDifference(investment.time) === 7"
+                        lazy-src="../assets/chicken/7.svg"
                         max-height="150"
                         max-width="150"
-                        src="../assets/chicken/6.svg"
+                        src="../assets/chicken/7.svg"
+                        style="margin: auto !important"
+                        class="mt-16"
+                      ></v-img>
+                      <v-img
+                        v-else-if="dateDifference(investment.time) === 8"
+                        lazy-src="../assets/chicken/8.svg"
+                        max-height="150"
+                        max-width="150"
+                        src="../assets/chicken/8.svg"
+                        style="margin: auto !important"
+                        class="mt-16"
+                      ></v-img>
+                      <v-img
+                        v-else-if="dateDifference(investment.time) === 9"
+                        lazy-src="../assets/chicken/9.svg"
+                        max-height="150"
+                        max-width="150"
+                        src="../assets/chicken/9.svg"
+                        style="margin: auto !important"
+                        class="mt-16"
+                      ></v-img>
+                      <v-img
+                        v-else-if="dateDifference(investment.time) === 10"
+                        lazy-src="../assets/chicken/10.svg"
+                        max-height="150"
+                        max-width="150"
+                        src="../assets/chicken/10.svg"
+                        style="margin: auto !important"
+                        class="mt-16"
+                      ></v-img>
+                      <v-img
+                        v-else-if="dateDifference(investment.time) === 11"
+                        lazy-src="../assets/chicken/11.svg"
+                        max-height="150"
+                        max-width="150"
+                        src="../assets/chicken/11.svg"
+                        style="margin: auto !important"
+                        class="mt-16"
+                      ></v-img>
+                      <v-img
+                        v-else-if="dateDifference(investment.time) === 12"
+                        lazy-src="../assets/chicken/12.svg"
+                        max-height="150"
+                        max-width="150"
+                        src="../assets/chicken/12.svg"
+                        style="margin: auto !important"
+                        class="mt-16"
+                      ></v-img>
+                      <v-img
+                        v-else-if="dateDifference(investment.time) === 13"
+                        lazy-src="../assets/chicken/13.svg"
+                        max-height="150"
+                        max-width="150"
+                        src="../assets/chicken/13.svg"
+                        style="margin: auto !important"
+                        class="mt-16"
+                      ></v-img>
+                      <v-img
+                        v-else-if="dateDifference(investment.time) === 14"
+                        lazy-src="../assets/chicken/14.svg"
+                        max-height="150"
+                        max-width="150"
+                        src="../assets/chicken/14.svg"
+                        style="margin: auto !important"
+                        class="mt-16"
+                      ></v-img>
+                      <v-img
+                        v-else
+                        lazy-src="../assets/chicken/14.svg"
+                        max-height="150"
+                        max-width="150"
+                        src="../assets/chicken/14.svg"
                         style="margin: auto !important"
                         class="mt-16"
                       ></v-img>
                     </v-col>
-                    <v-col
-                      ><v-form
-                        v-if="
-                          investment.collect[0].day ===
-                            dateDifference(investment.time).toString() &&
-                          investment.collect[0].day !== zero
-                        "
-                        v-on:submit.prevent="
-                          collectNow(
-                            investment.index,
-                            dateDifference(investment.time)
-                          )
-                        "
-                      >
-                        <v-btn type="submit" class="ma-2" color="success">
-                          Collect
-                        </v-btn>
-                      </v-form></v-col
-                    >
                   </v-row>
                   <v-divider></v-divider>
                 </v-list-item-content>
@@ -643,6 +712,92 @@
           </v-card>
         </v-dialog>
       </v-row>
+    </template>
+    <!-- Add a stepper -->
+    <template>
+      <v-dialog v-model="stepper1" max-width="500" scrollable>
+        <v-card>
+          <form class="ml-8 mr-8" v-on:submit.prevent="orderRealChicken">
+            <v-toolbar class="pl-5" color="#ed6c55" dark
+              >Please order a real animal</v-toolbar
+            >
+            <v-stepper v-model="e6" vertical class="stepper">
+              <v-stepper-step :complete="e6 > 1" step="1">
+                Please enter delivery details
+                <small>Delivery details goes here</small>
+              </v-stepper-step>
+
+              <v-stepper-content step="1">
+                <v-card class="mb-16" height="200px" elevation="0">
+                  <v-text-field
+                    v-model="locationDelivery"
+                    label="Type your location"
+                    required
+                    outlined
+                    class="mt-3"
+                    type="text"
+                  ></v-text-field>
+                  <v-text-field
+                    v-model="userNameDelivery"
+                    label="Full name"
+                    required
+                    outlined
+                    class="mt-3"
+                    type="text"
+                  ></v-text-field>
+                  <v-text-field
+                    v-model="numberOfChicken"
+                    label="Number of Chicken"
+                    required
+                    outlined
+                    class="mt-3"
+                    type="number"
+                  ></v-text-field>
+                </v-card>
+                <v-btn color="#ed6c55" @click="e6 = 2"> Continue </v-btn>
+                <v-btn text @click="stepper1 = false"> Cancel </v-btn>
+              </v-stepper-content>
+
+              <v-stepper-step :complete="e6 > 2" step="2">
+                Terms of orders
+              </v-stepper-step>
+
+              <v-stepper-content step="2">
+                <v-card class="mb-12" height="200px">
+                  <v-list flat subheader three-line>
+                    <v-subheader
+                      >Requirements to order a real animal</v-subheader
+                    >
+                    <v-list-item>
+                      <v-list-item-content>
+                        <v-list-item-title>Verify Identity</v-list-item-title>
+                        <v-list-item-subtitle
+                          >Send both sides of your ID to
+                          support@payfarm.org</v-list-item-subtitle
+                        >
+                      </v-list-item-content>
+                    </v-list-item>
+
+                    <v-list-item>
+                      <v-list-item-content>
+                        <v-list-item-title>Investments</v-list-item-title>
+                        <v-list-item-subtitle
+                          >Prove via the same email 10 successful
+                          investments.</v-list-item-subtitle
+                        >
+                      </v-list-item-content>
+                    </v-list-item>
+                  </v-list>
+                </v-card>
+                <v-btn type="submit" color="#ed6c55" @click="e6 = 2">
+                  Complete
+                </v-btn>
+                <v-btn text @click="stepper1 = false"> Cancel </v-btn>
+              </v-stepper-content>
+            </v-stepper>
+          </form>
+        </v-card>
+      </v-dialog>
     </template>
   </div>
 </template>
@@ -660,6 +815,10 @@ export default {
   },
   data() {
     return {
+      Active: "Active",
+      e6: 1,
+      Suspended: "Suspended",
+      Complete: "Complete",
       zero: "0",
       index: "",
       mobile: { animationData: animationData2 },
@@ -683,12 +842,17 @@ export default {
       dialog2: false,
       dialog3: false,
       investments: false,
+      stepper1: false,
       trans: false,
       alertFailed: false,
       alertFailed1: false,
       alertWithdrawSuccess: false,
       confirm: "Confirm",
       today: new Date(),
+      investmentsNow: [],
+      locationDelivery: "",
+      userNameDelivery: "",
+      numberOfChicken: "",
     };
   },
   async mounted() {
@@ -701,24 +865,42 @@ export default {
       this.$router.push("/signin");
     }
   },
+  created() {
+    this.fetchInvestments();
+    this.updateInvestment();
+  },
   methods: {
+    async fetchInvestments() {
+      try {
+        const response = await axios.get("investmentuser");
+        console.log("See investments", response.data);
+        this.investmentsNow = response.data.reverse();
+      } catch (error) {
+        console.log(error);
+      }
+    },
     dateDifference(first) {
       return Math.round((this.today - first) / (1000 * 60 * 60 * 24));
     },
-    dateFormat(v) {
-      return (v) => {
-        let format = (d) =>
-          d.toString().replace(/\w+ (\w+) (\d+) (\d+).*/, "$2 $1, $3");
-        return format(new Date(v));
-      };
-    },
     async updateInvestment() {
       const data = {
-        userid: user._id,
+        userId: this.user._id,
       };
       try {
-        const response = await axios.post("investmentUpdate", data);
-        console.log(response.data);
+        await axios.post("investmentUpdate", data);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async orderRealChicken() {
+      const data = {
+        user: this.user,
+        locationDelivery: this.locationDelivery,
+        userNameDelivery: this.userNameDelivery,
+        numberOfChicken: this.numberOfChicken,
+      };
+      try {
+        await axios.post("orderRealChicken", data);
       } catch (error) {
         console.log(error);
       }
@@ -746,8 +928,7 @@ export default {
         amount: this.dialogm1,
       };
       try {
-        const response = await axios.post("deposit", data);
-        console.log(response);
+        await axios.post("deposit", data);
         this.isLoading = "Confirm";
         this.alertSuccess = true;
         this.feedNow = false;
@@ -756,7 +937,7 @@ export default {
           function () {
             this.loadUser();
           }.bind(this),
-          20000
+          30000
         );
       } catch (e) {
         this.alertError = true;
@@ -781,8 +962,7 @@ export default {
           amount: this.amount,
         };
         try {
-          const response = await axios.post("b2c", data);
-          console.log(response);
+          await axios.post("b2c", data);
           this.isLoading = "Confirm";
           this.alertWithdrawSuccess = true;
           this.feedNow = false;
@@ -836,48 +1016,23 @@ export default {
           amount: this.investment,
           status: "Active",
           referrals: referralData,
-          collect: [
-            {
-              day: "1",
-              status: "complete",
-            },
-          ],
+          collect: 1,
         };
         this.confirm = "Please wait...";
         try {
-          const response = await axios.post("investment", data);
-          console.log(response);
-          this.alertSuccess1 = true;
-          this.alertError = false;
-          this.confirm = "Confirm";
-          this.investment = 0;
-          this.cart = 0;
-          this.loadUser();
+          await axios.post("investment", data).then(() => {
+            this.loadUser();
+            this.alertSuccess1 = true;
+            this.alertError = false;
+            this.confirm = "Confirm";
+            this.investment = 0;
+            this.cart = 0;
+            this.fetchInvestments();
+          });
         } catch (e) {
           this.alertError = true;
           this.isLoading = "Confirm";
         }
-      }
-    },
-    async collectNow(index, day) {
-      const dayUpdate = day + 1;
-      const data = {
-        userid: this.user._id,
-        index: index,
-        collect: [
-          {
-            day: dayUpdate.toString(),
-            status: "complete",
-          },
-        ],
-      };
-      try {
-        const response = await axios.post("investmentUpdate", data);
-        console.log(response);
-        this.loadUser();
-      } catch (e) {
-        this.alertError = true;
-        this.isLoading = "Confirm";
       }
     },
     setIndex(items) {
@@ -900,6 +1055,9 @@ export default {
 </script>
 
 <style scoped>
+.stepper {
+  overflow: visible;
+}
 .red {
   color: #f5ce42 !important;
   background-color: white !important;
@@ -919,7 +1077,7 @@ export default {
 .center_all1 {
   position: absolute;
   top: 47%;
-  left: 50%;
+  left: 45%;
 }
 .sub-1 {
   font-size: 9px !important;
