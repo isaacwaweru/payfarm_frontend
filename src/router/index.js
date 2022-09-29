@@ -1,6 +1,9 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
+import TermsOfUse from "../views/TermsOfUse.vue";
+import Faqs from '../views/Faqs.vue';
+import PrivacyPolicy from "../views/PrivacyPolicy.vue";
 import RegistrationView from "../views/RegistrationView.vue";
 import ActivateView from "../views/ActivateView.vue";
 import SigninView from "../views/SigninView.vue";
@@ -18,6 +21,23 @@ const routes = [
     path: "/",
     name: "home",
     component: HomeView,
+  },
+  {
+    path: "/privacy-policy",
+    name: "privacy-policy",
+    component: PrivacyPolicy,
+  },
+
+  {
+    path: "/faqs",
+    name: "faqs",
+    component: Faqs,
+  },
+
+  {
+    path: "/terms-of-use",
+    name: "terms-of-use",
+    component: TermsOfUse,
   },
   {
     path: "/registration",

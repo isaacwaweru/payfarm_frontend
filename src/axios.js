@@ -1,6 +1,9 @@
 import axios from 'axios'
 
-axios.defaults.baseURL = 'https://whale-app-zl55c.ondigitalocean.app/';
+ axios.defaults.baseURL = 'https://whale-app-zl55c.ondigitalocean.app/';
+
+// axios.defaults.baseURL = 'http://localhost:7000';
+
 // axios.defaults.headers.common['Authorization'] = 'Bearer '+localStorage.getItem('token');
 
 // Add a request interceptor

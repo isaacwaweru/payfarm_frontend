@@ -6,6 +6,9 @@
   </v-app>
 </template>
 
+<style>
+@import "./css/app_global.css";
+</style>
 <script>
 export default {
   name: "App",

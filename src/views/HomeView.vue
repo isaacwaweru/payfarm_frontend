@@ -11,17 +11,24 @@
       </div>
 
 
-
       <v-spacer></v-spacer>
 
       <router-link to="/signin" tag="span">
-        <v-btn color="#53C351" height="35" dark> Login </v-btn>
+        <v-btn class="wdt_login_btn" color="#53C351" width="109" height="35" dark> 
+          <v-img class="login_svg"
+          lazy-src="../assets/foot.svg"
+          max-height="140"
+          max-width="140"
+          src="../assets/login-svg.svg"
+        ></v-img>
+
+         <span class="login_text">Login</span> </v-btn>
       </router-link>
     </v-app-bar>
 
-    <v-layout column wrap>
+    <v-layout class="app_user_home" column wrap>
       <v-flex xs12 md3
-        ><section>
+        ><section class="empoweringFarming">
           <div class="large">
             <lottie :options="largeScreens" v-on:animCreated="handleAnimation">
             </lottie>
@@ -31,34 +38,33 @@
             </lottie>
           </div>
           <div class="title">
-            <header class="heading">
-              <p class="mb-4">Empowering Farming</p>
-              <p>through Technology</p>
+            <header class="heading main-heading">
+              <p class="mb-2">Empowering Farming through Technology</p>
             </header>
 
             <div class="subheading">
               <p class="mt-2">
-                We help realize your dreams of investing in Agriculture,<br />
-                let's start with small things that can change the world,<br />
-                so we can live happy and abundant lives.<br />
+                We help realize your dreams of investing in Agriculture,
+                let's start with small things that can change the world,
+                so we can live happy and abundant lives.
               </p>
               <p>
-                Feeding the animal makes the animal grow and later<br />
+                Feeding the animal makes the animal grow and later
                 sell it on the site and earn profits
               </p>
             </div>
           </div>
         </section>
 
-        <v-container>
+        <v-container class="how_it_works">
           <v-row justify="center" align="center">
-            <v-col cols="12" sm="2">
-              <h2 class="heading-3 mt-6">How it works</h2>
+            <v-col cols="12" sm="6">
+              <h2 class="wdt_head_2 heading-3 mt-6">How it works</h2>
             </v-col>
           </v-row>
 
-          <v-row justify="center">
-            <v-col cols="12" sm="3">
+          <v-row class="remove_margin" justify="center">
+            <v-col cols="12" sm="6">
               <h3 class="heading-4">Sell your animal once its grown</h3>
             </v-col>
           </v-row>
@@ -67,14 +73,14 @@
         <v-container>
           <v-card class="section-1 rounded-0" elevation="0">
             <v-row justify="center">
-              <v-col cols="12" md="3">
-                <div class="pa-4 text-center rounded-0">
+              <v-col cols="12" lg="3" md="6">
+                <div class="pa-4 text-center rounded-0 wdt-service-card">
                   <div class="service-card">
                     <v-img
-                      lazy-src="../assets/register.svg"
-                      max-height="80"
-                      max-width="60"
-                      src="../assets/register.svg"
+                      lazy-src="../assets/register-icon.svg"
+                      max-height="100"
+                      max-width="100"
+                      src="../assets/register-icon.svg"
                       class="service-img"
                     ></v-img>
                     <h3 class="sub-head">Register</h3>
@@ -83,14 +89,14 @@
                 </div>
               </v-col>
 
-              <v-col cols="12" md="3">
-                <div class="pa-4 text-center rounded-0">
+              <v-col cols="12" lg="3" md="6">
+                <div class="pa-4 text-center rounded-0 wdt-service-card">
                   <div class="service-card">
                     <v-img
-                      lazy-src="../assets/buy.svg"
-                      max-height="80"
-                      max-width="60"
-                      src="../assets/buy.svg"
+                      lazy-src="../assets/buy-icon.svg"
+                      max-height="100"
+                      max-width="100"
+                      src="../assets/buy-icon.svg"
                       class="service-img"
                     ></v-img>
                     <h3 class="sub-head">Buy a young one</h3>
@@ -102,14 +108,14 @@
                 </div>
               </v-col>
 
-              <v-col cols="12" md="3">
-                <div class="pa-4 text-center rounded-0">
+              <v-col cols="12" lg="3" md="6">
+                <div class="pa-4 text-center rounded-0 wdt-service-card">
                   <div class="service-card">
                     <v-img
-                      lazy-src="../assets/feed.svg"
-                      max-height="80"
-                      max-width="60"
-                      src="../assets/feed.svg"
+                      lazy-src="../assets/feed-icon.svg"
+                      max-height="100"
+                      max-width="100"
+                      src="../assets/feed-icon.svg"
                       class="service-img"
                     ></v-img>
                     <h3 class="sub-head">Feed your animal</h3>
@@ -120,14 +126,14 @@
                   </div>
                 </div>
               </v-col>
-              <v-col cols="12" md="3">
-                <div class="pa-4 text-center rounded-0">
+              <v-col cols="12" lg="3" md="6">
+                <div class="pa-4 text-center rounded-0 wdt-service-card">
                   <div class="service-card">
                     <v-img
-                      lazy-src="../assets/sell.svg"
-                      max-height="80"
-                      max-width="60"
-                      src="../assets/sell.svg"
+                      lazy-src="../assets/sell-icon.svg"
+                      max-height="100"
+                      max-width="100"
+                      src="../assets/sell-icon.svg"
                       class="service-img"
                     ></v-img>
                     <h3 class="sub-head">Sell your chicken</h3>
@@ -139,18 +145,18 @@
           </v-card>
         </v-container>
 
-        <v-container>
+        <v-container class="wdt_action_boxes">
           <v-card elevation="0">
-            <v-row :class="{ 'ml-16': $vuetify.breakpoint.mdAndUp }">
-              <v-col>
+            <v-row :class="{ '': $vuetify.breakpoint.mdAndUp }">
+              <v-col cols="12" lg="4" md="6" sm="12">
                 <div
                   :class="{
-                    'card-1 mt-16 mb-5 ml-auto mr-auto':
+                    'card-1 mt-16 mb-5 ml-auto mr-auto wdt_card-1':
                       $vuetify.breakpoint.smAndDown,
-                    'card-1 mt-16 mb-5': $vuetify.breakpoint.mdAndUp,
+                    'card-1 mt-16 mb-5 wdt_card-1': $vuetify.breakpoint.mdAndUp,
                   }"
                 >
-                  <div class="card-2">
+                  <div class="card-2 wdt_card-2">
                     <h1
                       style="
                         color: #231d4f;
@@ -184,10 +190,10 @@
                       Pay and grow your fam animals
                     </p>
                     <v-img
-                      lazy-src="../assets/chick.svg"
-                      max-height="120"
-                      max-width="120"
-                      src="../assets/chick.svg"
+                      lazy-src="../assets/chick.gif"
+                      max-height="160"
+                      max-width="130"
+                      src="../assets/chick.gif"
                       style="margin: auto !important"
                       class="mt-16"
                     ></v-img>
@@ -198,15 +204,15 @@
                 </div>
               </v-col>
 
-              <v-col>
+              <v-col cols="12" lg="4" md="6" sm="12">
                 <div
                   :class="{
-                    'card-1-r mt-16 mb-5 ml-auto mr-auto':
+                    'card-1-r mt-16 mb-5 ml-auto mr-auto wdt_card-1':
                       $vuetify.breakpoint.smAndDown,
-                    'card-1-r mt-16 mb-5': $vuetify.breakpoint.mdAndUp,
+                    'card-1-r mt-16 mb-5 wdt_card-1': $vuetify.breakpoint.mdAndUp,
                   }"
                 >
-                  <div class="card-2">
+                  <div class="card-2 wdt_card-2">
                     <h1
                       style="
                         color: #231d4f;
@@ -240,10 +246,10 @@
                       Pay and grow your fam animals
                     </p>
                     <v-img
-                      lazy-src="../assets/calf.svg"
-                      max-height="130"
-                      max-width="120"
-                      src="../assets/calf.svg"
+                      lazy-src="../assets/goat.gif"
+                      max-height="160"
+                      max-width="130"
+                      src="../assets/goat.gif"
                       style="margin: auto !important"
                       class="mt-16"
                     ></v-img>
@@ -253,15 +259,15 @@
                 </div>
               </v-col>
 
-              <v-col>
+              <v-col cols="12" lg="4" md="6" sm="12">
                 <div
                   :class="{
-                    'card-1-r-r mt-16 mb-5 ml-auto mr-auto':
+                    'card-1-r-r mt-16 mb-5 ml-auto mr-auto wdt_card-1':
                       $vuetify.breakpoint.smAndDown,
-                    'card-1-r-r mt-16 mb-5': $vuetify.breakpoint.mdAndUp,
+                    'card-1-r-r mt-16 mb-5 wdt_card-1': $vuetify.breakpoint.mdAndUp,
                   }"
                 >
-                  <div class="card-2">
+                  <div class="card-2 wdt_card-2">
                     <h1
                       style="
                         color: #231d4f;
@@ -295,10 +301,10 @@
                       Pay and grow your fam animals
                     </p>
                     <v-img
-                      lazy-src="../assets/kid.svg"
-                      max-height="120"
-                      max-width="120"
-                      src="../assets/kid.svg"
+                      lazy-src="../assets/sheep.gif"
+                      max-height="160"
+                      max-width="130"
+                      src="../assets/sheep.gif"
                       style="margin: auto !important"
                       class="mt-16"
                     ></v-img>
@@ -311,12 +317,16 @@
           </v-card>
         </v-container>
 
-        <div class="footer-1">
+        <div class="footer-1 bg_position">
+          <video src="../assets/video/CattleBgVideo.mp4" loop muted autoplay>
+          </video>
+          
           <v-card :class="{
                     'form-mobile mt-1 mr-1 ml-1 mb-1':
                       $vuetify.breakpoint.smAndDown,
                     'form': $vuetify.breakpoint.mdAndUp,
                   }">
+                  
             <v-img
               lazy-src="../assets/head.svg"
               src="../assets/head.svg"
@@ -328,7 +338,7 @@
               ></v-img>
             </div>
             <div>
-              <form class="ml-8 mr-8"
+              <form class="ml-8 mr-8 wdt-form"
                 v-on:submit.prevent="submitForm"
               >
                 <h4>Email Address</h4>
@@ -404,31 +414,41 @@
         </v-col>
       </v-row>
 
-      <v-row justify="center">
+     <v-row justify="center">
         <v-col>
           <h5
             style="color: #fff; font-size: 14px; opacity: 0.8; font-weight: 600"
             class="footer-text"
           >
-            Contact Us<span
-              style="
-                color: #fff;
-                font-size: 14px;
-                opacity: 0.8;
-                font-weight: 600;
-              "
-              class="ml-10"
-              >FAQs</span
-            >
+            <router-link class="wdt_link" to="#" tag="a">
+                  <span class="ml-2">Contact Us</span>
+              </router-link> 
+              <router-link class="wdt_link" to="/faqs" tag="a">
+                  <span class="ml-2">Faqs</span>
+              </router-link> 
+              <router-link class="wdt_link" to="/privacy-policy" tag="a">
+                <span class="ml-2">Privacy Policy</span>
+              </router-link>
+              <router-link class="wdt_link" to="/terms-of-use" tag="a">
+                <span class="ml-2">Terms Of Use</span>
+              </router-link>
           </h5>
         </v-col>
       </v-row>
 
       <v-container>
-        <div class="box d-flex justify-center pb-4">
-          <v-icon>mdi-facebook</v-icon>
-          <v-icon>mdi-twitter</v-icon>
-          <v-icon>mdi-instagram</v-icon>
+        <div class="wdt_footer_social box d-flex justify-center pb-4">
+          <a href="#"><v-icon>mdi-facebook</v-icon></a>
+          <a href="https://mobile.twitter.com/payfarm_org"><v-icon>mdi-twitter</v-icon></a>
+          <a href="https://instagram.com/payfarm_org?igshid=YmMyMTA2M2Y="><v-icon>mdi-instagram</v-icon></a>
+          <a href="https://youtube.com/channel/UCWSi_YJ7_ofpYcQdutWTqnA"><v-icon>mdi-youtube</v-icon></a>
+          <a href="https://chat.whatsapp.com/B6lb6RL1hTEH9u4Q9PNtYo"><v-icon>mdi-whatsapp</v-icon></a>
+          <a class="telegram_wdt" href="https://t.me/payfarm_org"><v-img
+          lazy-src="../assets/telegram.png"
+          max-height="22"
+          max-width="22"
+          src="../assets/telegram.png"
+        ></v-img></a>
         </div>
       </v-container>
     </div>
@@ -495,167 +515,176 @@ export default {
 
 <style scoped>
 section {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  flex: 1;
-  position: relative;
-}
-.title {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.heading {
-  color: #fff;
-  text-align: center;
-  font-size: 56px;
-}
-.heading p {
-  padding: 30px 0px;
-  margin-bottom: 16px;
-}
-.subheading {
-  color: #fff;
-  text-align: center;
-  text-decoration-style: bold;
-  font-size: 18px;
-  z-index: 1000;
-}
-.heading-3 {
-  color: #61bd5b;
-  text-align: center !important;
-}
-.heading-4 {
-  color: black;
-  text-align: center !important;
-}
-.sub-head {
-  color: #b16c53;
-}
-.service-img {
-  margin: 0 auto !important;
-}
-.card-1-r {
-  height: 400px;
-  width: 300px;
-  background-color: #f496d1;
-  -webkit-box-shadow: 0px -4px 8px #f0b3d9;
-  -moz-box-shadow: 0px -4px 8px #f0b3d9;
-  box-shadow: 0px -4px 8px #f0b3d9;
-}
-.card-1-r-r {
-  height: 400px;
-  width: 300px;
-  background-color: #0a0535;
-  -webkit-box-shadow: 0px -4px 8px #19134e;
-  -moz-box-shadow: 0px -4px 8px #19134e;
-  box-shadow: 0px -4px 8px #19134e;
-}
-.card-1 {
-  height: 400px;
-  width: 300px;
-  background-color: #ef9956;
-  -webkit-box-shadow: 0px -4px 8px #ef9956;
-  -moz-box-shadow: 0px -4px 8px #ef9956;
-  box-shadow: 0px -4px 8px #ef9956;
-}
-.card-2 {
-  height: 400px;
-  width: 290px;
-  background-color: #fff;
-  transform: translate(-20px, -50px);
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
-  border-radius: 2px;
-}
-.action {
-  margin-top: -38px;
-  margin-left: 30px;
-  color: #fff;
-  font-size: 18px;
-  font-weight: 500;
-}
-.footer-1 {
-  height: 6;
-  background: url("../assets/footer.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  overflow-x: hidden;
-}
-.form {
-  height: auto;
-  width: 400px;
-  background-color: #fff;
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
-  border-radius: 6px;
-  margin-left: 80px;
-}
-.form-mobile {
-  height: auto;
-  width: 400x;
-  background-color: #fff;
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
-  border-radius: 6px;
-}
-.footer-2 {
-  background-color: #1e2833;
-  height: auto;
-}
-.footer-text {
-  text-align: center !important;
-}
-.box {
-  gap: 30px;
-}
-.v-icon {
-  color: #fff !important;
-}
-.section-2 {
-  margin: auto !important;
-}
-.text {
-  text-align: center;
-}
-.form-1 {
-  transform: translate(0px, -30px);
-}
-.packages {
-  background-color: #e5e5e5;
-}
-@media screen and (max-width: 768px) {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	flex: 1;
+	position: relative;
+  }
+  .title {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+  }
+  .heading {
+	color: #fff;
+	text-align: center;
+	font-size: 56px;
+  }
   .heading p {
-    padding: 10px;
-  }
-  .heading {
-    font-size: 32px !important;
-  }
-}
-@media screen and (max-width: 550px) {
-  p {
-    line-height: 1rem !important;
-    padding: 5px 0px !important;
-    margin-bottom: 3px !important;
-  }
-  .heading {
-    font-size: 32px;
+	padding: 30px 0px;
+	margin-bottom: 16px;
   }
   .subheading {
-    font-size: 16px !important;
+	color: #fff;
+	text-align: center;
+	text-decoration-style: bold;
+	font-size: 18px;
+	z-index: 1000;
   }
-  .large {
-    display: none;
+  .heading-3 {
+	color: #61bd5b;
+	text-align: center !important;
   }
-}
-@media screen and (min-width: 551px) {
-  .small {
-    display: none;
+  .heading-4 {
+	color: black;
+	text-align: center !important;
   }
-}
+  .sub-head {
+	color: #b16c53;
+  }
+  .service-img {
+	margin: 0 auto !important;
+  }
+  .card-1-r {
+	height: 400px;
+	width: 300px;
+	background-color: #f496d1;
+	-webkit-box-shadow: 0px -4px 8px #f0b3d9;
+	-moz-box-shadow: 0px -4px 8px #f0b3d9;
+	box-shadow: 0px -4px 8px #f0b3d9;
+  }
+  .card-1-r-r {
+	height: 400px;
+	width: 300px;
+	background-color: #0a0535;
+	-webkit-box-shadow: 0px -4px 8px #19134e;
+	-moz-box-shadow: 0px -4px 8px #19134e;
+	box-shadow: 0px -4px 8px #19134e;
+  }
+  .card-1 {
+	height: 400px;
+	width: 300px;
+	background-color: #ef9956;
+	-webkit-box-shadow: 0px -4px 8px #ef9956;
+	-moz-box-shadow: 0px -4px 8px #ef9956;
+	box-shadow: 0px -4px 8px #ef9956;
+  }
+  .card-2 {
+	height: 400px;
+	width: 290px;
+	background-color: #fff;
+	transform: translate(-20px, -50px);
+	box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+	border-radius: 2px;
+  }
+  .action {
+	margin-top: -38px;
+	margin-left: 30px;
+	color: #fff;
+	font-size: 18px;
+	font-weight: 500;
+  }
+  .footer-1 {
+	height: 6;
+	background: url("/src/assets/footer.png");
+	background-repeat: no-repeat;
+	background-size: cover;
+	overflow-x: hidden;
+  }
+  .form {
+	height: auto;
+	width: 400px;
+	background-color: #fff;
+	box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+	border-radius: 6px;
+	margin-left: 80px;
+  }
+  .form-mobile {
+	height: auto;
+	width: 400x;
+	background-color: #fff;
+	box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+	border-radius: 6px;
+  }
+  .footer-2 {
+	background-color: #1e2833;
+	height: auto;
+  }
+  .footer-text {
+	text-align: center !important;
+  }
+  .box {
+	gap: 30px;
+  }
+  .v-icon {
+	color: #fff !important;
+  }
+  .section-2 {
+	margin: auto !important;
+  }
+  .text {
+	text-align: center;
+  }
+  .form-1 {
+	transform: translate(0px, -30px);
+  }
+  .packages {
+	background-color: #e5e5e5;
+  }
+  
+  
+  
+  
+  
+  @media screen and (max-width: 768px) {
+	.heading p {
+	  padding: 10px;
+	}
+	.heading {
+	  font-size: 32px !important;
+	}
+  }
+  @media screen and (max-width: 550px) {
+	p {
+	  line-height: 1rem !important;
+	  padding: 5px 0px !important;
+	  margin-bottom: 3px !important;
+	}
+	.heading {
+	  font-size: 32px;
+	}
+	.subheading {
+	  font-size: 16px !important;
+	}
+	.large {
+	  display: none;
+	}
+  }
+  @media screen and (min-width: 551px) {
+	.small {
+	  display: none;
+	}
+  }
+</style>
+
+<style>
+  @import '../style.css';
 </style>
