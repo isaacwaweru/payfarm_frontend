@@ -1081,7 +1081,7 @@ export default {
           amount: this.investment,
           status: "Active",
           referrals: referralData,
-          collect: 1,
+          collect: 0,
         };
         this.confirm = "Please wait...";
         try {
