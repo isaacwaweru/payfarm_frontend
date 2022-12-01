@@ -38,6 +38,7 @@
 
       <v-spacer></v-spacer>
       <div class="inv">
+        
         <v-btn
           class="ma-2"
           small
@@ -64,6 +65,16 @@
           color="#f"
           rounded
           >Transactions</v-btn
+        >
+
+        <v-btn
+          class="ma-2"
+          small
+          outlined
+          @click.stop="referral = true"
+          color="#f"
+          rounded
+          >Referrals</v-btn
         >
       </div>
       <v-subheader class="sub">
@@ -98,7 +109,7 @@
       >
     </v-toolbar>
     <v-toolbar class="unity" dense color="#0B0636" dark>
-      <v-spacer></v-spacer>
+     
       <v-btn
         class="ma-2"
         small
@@ -118,8 +129,18 @@
         rounded
         >Transactions</v-btn
       >
+
+      <v-btn
+          class="ma-2"
+          small
+          outlined
+          @click.stop="referral = true"
+          color="#f"
+          rounded
+          >Referrals</v-btn
+        >
     </v-toolbar>
-  
+
     <div class="background">
       <v-col>
         <div
@@ -247,8 +268,8 @@
         </div>
       </v-col>
     </div>
-   
-   <div class="footer-2">
+
+    <div class="footer-2">
       <v-row justify="center">
         <v-col cols="12" sm="2">
           <v-img
@@ -272,24 +293,24 @@
         </v-col>
       </v-row>
 
-     <v-row justify="center">
+      <v-row justify="center">
         <v-col>
           <h5
             style="color: #fff; font-size: 14px; opacity: 0.8; font-weight: 600"
             class="footer-text"
           >
             <router-link class="wdt_link" to="#" tag="a">
-                  <span class="ml-2">Contact Us</span>
-              </router-link> 
-              <router-link class="wdt_link" to="/faqs" tag="a">
-                  <span class="ml-2">Faqs</span>
-              </router-link> 
-              <router-link class="wdt_link" to="/privacy-policy" tag="a">
-                <span class="ml-2">Privacy Policy</span>
-              </router-link>
-              <router-link class="wdt_link" to="/terms-of-use" tag="a">
-                <span class="ml-2">Terms Of Use</span>
-              </router-link>
+              <span class="ml-2">Contact Us</span>
+            </router-link>
+            <router-link class="wdt_link" to="/faqs" tag="a">
+              <span class="ml-2">Faqs</span>
+            </router-link>
+            <router-link class="wdt_link" to="/privacy-policy" tag="a">
+              <span class="ml-2">Privacy Policy</span>
+            </router-link>
+            <router-link class="wdt_link" to="/terms-of-use" tag="a">
+              <span class="ml-2">Terms Of Use</span>
+            </router-link>
           </h5>
         </v-col>
       </v-row>
@@ -297,20 +318,30 @@
       <v-container>
         <div class="wdt_footer_social box d-flex justify-center pb-4">
           <a href="#"><v-icon>mdi-facebook</v-icon></a>
-          <a href="https://mobile.twitter.com/payfarm_org"><v-icon>mdi-twitter</v-icon></a>
-          <a href="https://instagram.com/payfarm_org?igshid=YmMyMTA2M2Y="><v-icon>mdi-instagram</v-icon></a>
-          <a href="https://youtube.com/channel/UCWSi_YJ7_ofpYcQdutWTqnA"><v-icon>mdi-youtube</v-icon></a>
-          <a href="https://chat.whatsapp.com/B6lb6RL1hTEH9u4Q9PNtYo"><v-icon>mdi-whatsapp</v-icon></a>
-          <a class="telegram_wdt" href="https://t.me/payfarm_org"><v-img
-          lazy-src="../assets/telegram.png"
-          max-height="22"
-          max-width="22"
-          src="../assets/telegram.png"
-        ></v-img></a>
+          <a href="https://mobile.twitter.com/payfarm_org"
+            ><v-icon>mdi-twitter</v-icon></a
+          >
+          <a href="https://instagram.com/payfarm_org?igshid=YmMyMTA2M2Y="
+            ><v-icon>mdi-instagram</v-icon></a
+          >
+          <a href="https://youtube.com/channel/UCWSi_YJ7_ofpYcQdutWTqnA"
+            ><v-icon>mdi-youtube</v-icon></a
+          >
+          <a href="https://chat.whatsapp.com/B6lb6RL1hTEH9u4Q9PNtYo"
+            ><v-icon>mdi-whatsapp</v-icon></a
+          >
+          <a class="telegram_wdt" href="https://t.me/payfarm_org"
+            ><v-img
+              lazy-src="../assets/telegram.png"
+              max-height="22"
+              max-width="22"
+              src="../assets/telegram.png"
+            ></v-img
+          ></a>
         </div>
       </v-container>
-   </div>
-    
+    </div>
+
     <!-- Deposit amount -->
     <template>
       <v-row justify="center">
@@ -369,36 +400,88 @@
             <v-toolbar class="pl-4" color="#53C351" dark
               >Withdraw to M-pesa</v-toolbar
             >
-            <h5 class="ml-8 pt-1 mb-3 mt-2">
-              Enter the amount you want to withdraw
-            </h5>
-            <form class="ml-3 mr-8" v-on:submit.prevent="withDraw">
-              <v-text-field
-                v-model="amount"
-                label="Amount"
-                required
-                outlined
-                value="100"
-                class="pl-4 pr-4"
-                type="number"
-              ></v-text-field>
+            <div v-if="withdrawRequest">
+              <h5 class="ml-8 pt-1 mb-3 mt-2">
+                Enter the amount you want to withdraw
+              </h5>
+              <form class="ml-3 mr-8" v-on:submit.prevent="requestWithdraw">
+                <v-text-field
+                  v-model="amount"
+                  label="Amount"
+                  required
+                  outlined
+                  value="100"
+                  class="pl-4 pr-4"
+                  type="number"
+                ></v-text-field>
 
-              <v-alert v-if="alertFailed1" type="error">
-                Sorry! You cannot withdraw amount less than KES 10!
-              </v-alert>
+                <v-alert v-if="alertFailed1" type="error">
+                  Sorry! You cannot withdraw amount less than KES 10!
+                </v-alert>
 
-              <v-alert v-if="alertFailed" type="error">
-                Sorry! You have insuffient funds!
-              </v-alert>
+                <v-alert v-if="alertFailed" type="error">
+                  Sorry! You have insuffient funds!
+                </v-alert>
 
-              <v-alert v-if="alertWithdrawSuccess" type="success">
-                Request sent! Please wait the SMS confirmation
-              </v-alert>
+                <v-alert v-if="alertWithdrawSuccess" type="success">
+                  Request sent! Please wait the SMS confirmation
+                </v-alert>
 
-              <v-btn type="submit" color="#e1a11c" dark class="ml-4">
-                {{ isLoading }}
-              </v-btn>
-            </form>
+                <v-btn
+                  type="submit"
+                  :disabled="isActive"
+                  color="#e1a11c"
+                  dark
+                  class="ml-4"
+                >
+                  {{ isLoading }}
+                </v-btn>
+              </form>
+            </div>
+            <v-alert
+              class="ml-3 mr-8 mt-4"
+              v-if="alertWithdrawRequest"
+              type="success"
+            >
+              Withdrawal code sent to {{ user.phone }}
+            </v-alert>
+
+            <div v-if="withdrawView">
+              <h5 class="ml-8 pt-1 mb-3 mt-2">Enter withdrawal code</h5>
+              <form class="ml-3 mr-8" v-on:submit.prevent="withDraw">
+                <v-text-field
+                  v-model="withdrawOtp"
+                  label="Code##"
+                  required
+                  outlined
+                  value="100"
+                  class="pl-4 pr-4"
+                  type="number"
+                ></v-text-field>
+
+                <v-alert v-if="alertFailed1" type="error">
+                  Sorry! You cannot withdraw amount less than KES 10!
+                </v-alert>
+
+                <v-alert v-if="alertFailed" type="error">
+                  Sorry! You have insuffient funds!
+                </v-alert>
+
+                <v-alert v-if="alertWithdrawSuccess" type="success">
+                  Request sent! Please wait the SMS confirmation
+                </v-alert>
+
+                <v-btn
+                  type="submit"
+                  :disabled="isActive"
+                  color="#e1a11c"
+                  dark
+                  class="ml-4"
+                >
+                  {{ isLoading }}
+                </v-btn>
+              </form>
+            </div>
             <v-card-actions class="justify-end">
               <v-btn
                 text
@@ -471,7 +554,13 @@
                   </v-col>
                 </v-row>
               </v-alert>
-              <v-btn type="submit" color="#e1a11c" dark class="ml-4">
+              <v-btn
+                type="submit"
+                :disabled="isActive1"
+                color="#e1a11c"
+                dark
+                class="ml-4"
+              >
                 {{ confirm }}
               </v-btn>
             </form>
@@ -561,6 +650,59 @@
         </v-dialog>
       </v-row>
     </template>
+
+      <!-- Referral  -->
+      <template>
+      <v-row justify="center">
+        <v-dialog scrollable v-model="referral" max-width="600">
+          <v-card>
+            <v-toolbar class="pl-5 header_referal" color="#231d4f" dark
+              >
+              <div style="display: flex;justify-content: space-between;align-items: center;width: 100%;">
+              Referral History <v-btn class="refer_btn" @click="copyReferalLink">copy refer link</v-btn><input type="hidden" id="link_text" :value="{referLink}"></div></v-toolbar
+            >
+            <v-card-text style="height: 300px">
+              <v-text v-if="ReferralsNow.length === 0">
+                No Referral found
+              </v-text>
+              <v-list-item
+                v-for="referral in ReferralsNow"
+                :key="referral.time"
+              >
+                <v-list-item-content>
+                  <div class="referrals">
+                  <div>
+                    <v-list-item-title
+                      ><h4
+                      >
+                        {{ referral.invester_name }}
+                        <span style="color: #53c351"
+                          >Kes:{{ referral.amount }}</span
+                        >
+                      </h4>
+                    </v-list-item-title>
+
+                    <v-list-item-subtitle>{{
+                      referral.createdAt | moment("MMMM Do, h:mm a")
+                    }}</v-list-item-subtitle>
+                  </div>
+                  <div class="right-col">
+                     <h3>Profit: Kes{{ parseFloat(referral.profit).toFixed( 0 ) }}</h3>
+                     Referral Level: {{ referral.referrel_level=="level_1" ? "1" :"" || referral.referrel_level=="level_2" ? "2" :"" || referral.referrel_level=="level_3" ? "3" :""}}
+                  </div>
+                </div>
+                </v-list-item-content>
+              </v-list-item>
+            </v-card-text>
+            <v-divider></v-divider>
+            <v-card-actions class="justify-end">
+              <v-btn color="#231d4f" text @click="referral = false"> Close </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-row>
+    </template>
+    <!-- Referral End -->
     <!-- Investments -->
     <template>
       <v-row justify="center">
@@ -861,9 +1003,8 @@
             </v-stepper>
           </form>
         </v-card>
-      </v-dialog> 
+      </v-dialog>
     </template>
-    
   </div>
 </template>
 
@@ -880,6 +1021,11 @@ export default {
   },
   data() {
     return {
+      isActive: false,
+      cnt: 0,
+      isActive1: false,
+      cnt1: 0,
+      //Some bugs fixes
       Active: "Active",
       e6: 1,
       Suspended: "Suspended",
@@ -902,6 +1048,7 @@ export default {
       alertError2: false,
       feedNow: true,
       dialogm1: "",
+      referral:false,
       dialog: false,
       dialog1: false,
       dialog2: false,
@@ -911,10 +1058,17 @@ export default {
       trans: false,
       alertFailed: false,
       alertFailed1: false,
+      withdrawRequest: true,
+      withdrawView: false,
+      withdrawOtp: null,
+      alertWithdrawRequest: false,
       alertWithdrawSuccess: false,
       confirm: "Confirm",
       today: new Date(),
+      siteUrl: window.location.origin,
       investmentsNow: [],
+      ReferralsNow:[],
+      referrals:[],
       locationDelivery: "",
       userNameDelivery: "",
       numberOfChicken: "",
@@ -932,7 +1086,7 @@ export default {
   },
   created() {
     this.fetchInvestments();
-    this.updateInvestment();
+    this.fetchReferrals();
   },
   methods: {
     async fetchInvestments() {
@@ -944,18 +1098,33 @@ export default {
         console.log(error);
       }
     },
-    dateDifference(first) {
-      return Math.round((this.today - first) / (1000 * 60 * 60 * 24));
-    },
-    async updateInvestment() {
-      const data = {
-        userId: this.user._id,
-      };
+    async fetchReferrals() {
       try {
-        await axios.post("investmentUpdate", data);
+        console.log("Referrals Fetch here..");
+        const response = await axios.get("referraluser");
+        console.log("See Referrals", response.data);
+        this.ReferralsNow = response.data.reverse();
       } catch (error) {
         console.log(error);
       }
+    },
+    copyReferalLink () {
+      let linkinput = document.querySelector('#link_text')
+      let referLink=window.location.origin+"/registration/?phone="+this.user.phone;
+      linkinput.setAttribute('value',referLink);
+      linkinput.setAttribute('type', 'text');
+      linkinput.select();
+      var successful = document.execCommand('copy');
+      document.execCommand('copy');
+      var msg = successful ? 'Link has been copied!' : 'unsuccessful';
+      alert(msg)
+      linkinput.setAttribute('type', 'hidden')
+      window.getSelection().removeAllRanges()
+    },
+
+
+    dateDifference(first) {
+      return Math.round((this.today - first) / (1000 * 60 * 60 * 24));
     },
     async orderRealChicken() {
       const data = {
@@ -1009,7 +1178,7 @@ export default {
         this.isLoading = "Confirm";
       }
     },
-    async withDraw() {
+    async requestWithdraw() {
       if (this.amount < 10) {
         this.alertFailed1 = true;
         this.alertFailed = false;
@@ -1019,12 +1188,35 @@ export default {
         this.alertFailed1 = false;
         this.alertWithdrawSuccess = false;
       } else {
+        this.withdrawRequest = false;
+        this.withdrawView = true;
+        const data = {
+          amount: this.amount,
+        };
+        try {
+          await axios.post("requestWithdraw", data);
+          this.isLoading = "Confirm";
+          this.alertWithdrawRequest = true;
+          this.feedNow = false;
+          this.amount = "";
+          this.alertFailed = false;
+          this.alertFailed1 = false;
+        } catch (e) {
+          this.alertError = true;
+          this.isLoading = "Confirm";
+        }
+      }
+    },
+    async withDraw() {
+      this.isActive = true;
+      this.cnt++;
+      console.log(this.cnt);
+      if (this.cnt === 1) {
         // Make withdraw request
         this.isLoading = "Please wait...";
         const phone = "254" + String(this.user.phone).slice(-9).trim();
         const data = {
-          phone: phone,
-          amount: this.amount,
+          withdrawOtp: this.withdrawOtp,
         };
         try {
           await axios.post("b2c", data);
@@ -1034,9 +1226,11 @@ export default {
           this.amount = "";
           this.alertFailed = false;
           this.alertFailed1 = false;
+          this.alertWithdrawRequest = false;
           setTimeout(
             function () {
               this.loadUser();
+              this.isActive = true;
             }.bind(this),
             10000
           );
@@ -1060,6 +1254,8 @@ export default {
       }
     },
     async checkOutNow() {
+      this.isActive1 = true;
+      this.cnt1++;
       if (
         this.user.amount < this.investment &&
         this.user.amount !== this.investment
@@ -1069,7 +1265,7 @@ export default {
         this.alertSuccess1 = false;
       } else if (this.cart == 0) {
         this.alertError2 = true;
-      } else {
+      } else if (this.cnt1 === 1) {
         const referralData = {
           referralOne: this.user.referral.level_one,
           referralTwo: this.user.referral.level_two,
@@ -1081,7 +1277,7 @@ export default {
           amount: this.investment,
           status: "Active",
           referrals: referralData,
-          collect: 0,
+          collect: 1,
         };
         this.confirm = "Please wait...";
         try {
@@ -1179,6 +1375,24 @@ export default {
   font-weight: 500;
 }
 
+.header_referal .v-toolbar__content {
+    justify-content: space-between ;
+}
+.referrals {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+}
+.header_referal  .v-toolbar__content {
+    justify-content: space-between !important;
+}
+.refer_btn {
+    background-color: transparent !important;
+    box-shadow: none;
+    border: 1px solid;
+    border-radius: 30px;font-size: 12px;
+}
+
 @media screen and (min-width: 641px) {
   .title-1 {
     display: none;
@@ -1207,6 +1421,3 @@ export default {
   }
 }
 </style>
-
-
-

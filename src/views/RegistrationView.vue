@@ -56,12 +56,26 @@
                     outlined
                   ></v-text-field>
                   <h4 v-if="alertSuccessNot">Referral Phonenumber</h4>
-                  <v-text-field
-                    v-if="alertSuccessNot"
-                    v-model="referral"
-                    label="Referral Phonenumber(Optional)"
-                    outlined
-                  ></v-text-field>
+
+                    <div v-if="isrefer">
+                      <v-text-field
+                        v-if="alertSuccessNot"
+                        v-model="referral"
+                        :placeholder="[[refernum]]"
+                        outlined
+                        readonly
+                      ></v-text-field>
+                    </div>
+                    <div v-else>
+                      <v-text-field
+                        v-if="alertSuccessNot"
+                        v-model="referral"
+                        label="Referral Phonenumber(Optional)"
+                        outlined
+                      ></v-text-field>
+                    </div>
+                  
+
                   <h4 v-if="alertSuccessNot">Password</h4>
                   <v-text-field
                     v-if="alertSuccessNot"
@@ -177,7 +191,7 @@
       <v-container>
         <div class="wdt_footer_social box d-flex justify-center pb-4">
           <a href="#"><v-icon>mdi-facebook</v-icon></a>
-          <a href="https://mobile.twitter.com/payfarm_org"><v-icon>mdi-twitter</v-icon></a>
+          <a href="https://mobile.twitter.com/pay_farmorg"><v-icon>mdi-twitter</v-icon></a>
           <a href="https://instagram.com/payfarm_org?igshid=YmMyMTA2M2Y="><v-icon>mdi-instagram</v-icon></a>
           <a href="https://youtube.com/channel/UCWSi_YJ7_ofpYcQdutWTqnA"><v-icon>mdi-youtube</v-icon></a>
           <a href="https://chat.whatsapp.com/B6lb6RL1hTEH9u4Q9PNtYo"><v-icon>mdi-whatsapp</v-icon></a>
@@ -204,6 +218,8 @@ export default {
       phone: "",
       password: "",
       referral: "",
+      isrefer:"true",
+      refernum:"",
       confirmpassword: "",
       status: false,
       isLoading: "Register",
@@ -235,16 +251,21 @@ export default {
       },
     };
   },
+  mounted() {
+    this.refernum = this.$route.query.phone;
+    this.isrefer=this.refernum!=undefined ? true : false;
+    this.referral=this.refernum!=undefined ? this.refernum : "";
+  },
   methods: {
     async submitForm() {
       this.isLoading = "Please wait...";
       try {
         const response = await axios.post("register", {
-          fullname: this.fullname,
-          email: this.email.toLowerCase(),
-          phone: this.phone,
-          password: this.password,
-          referral: this.referral,
+          fullname: this.fullname.trim(),
+          email: this.email.toLowerCase().trim(),
+          phone: this.phone.trim(),
+          password: this.password.trim(),
+          referral: this.referral.trim(),
         });
         console.log(response);
         this.isLoading = "Register";
