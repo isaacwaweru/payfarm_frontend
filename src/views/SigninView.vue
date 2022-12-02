@@ -131,7 +131,7 @@
       <v-container>
         <div class="wdt_footer_social box d-flex justify-center pb-4">
           <a href="#"><v-icon>mdi-facebook</v-icon></a>
-          <a href="https://mobile.twitter.com/payfarm_org"><v-icon>mdi-twitter</v-icon></a>
+          <a href="https://mobile.twitter.com/pay_farmorg"><v-icon>mdi-twitter</v-icon></a>
           <a href="https://instagram.com/payfarm_org?igshid=YmMyMTA2M2Y="><v-icon>mdi-instagram</v-icon></a>
           <a href="https://youtube.com/channel/UCWSi_YJ7_ofpYcQdutWTqnA"><v-icon>mdi-youtube</v-icon></a>
           <a href="https://chat.whatsapp.com/B6lb6RL1hTEH9u4Q9PNtYo"><v-icon>mdi-whatsapp</v-icon></a>

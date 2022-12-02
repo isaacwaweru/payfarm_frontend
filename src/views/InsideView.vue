@@ -1276,7 +1276,7 @@ export default {
           investment: `${this.cart} Chicken @ Kes ${this.investment}`,
           amount: this.investment,
           status: "Active",
-          referrals: referralData,
+          referrals: referralData, 
           collect: 0,
         };
         this.confirm = "Please wait...";
