@@ -580,6 +580,3 @@ section {
 	}
   }
 </style>
-<style>
-@import "../style.css";
-</style>
